@@ -1,745 +1,433 @@
-<html lang="en"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ConnectUS - Bridging Cultures Through Language Learning</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #2d3436;
-            overflow-x: hidden;
-        }
-        
-        /* Navigation */
-        nav {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.2);
-        }
-        
-        nav .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 32px;
-            font-weight: bold;
-            color: white;
-            letter-spacing: 2px;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 40px;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
-            padding: 8px 16px;
-            border-radius: 5px;
-        }
-        
-        .nav-links a:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
-        }
-        
-        /* Hero Section */
-        .hero {
-            margin-top: 80px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 100px 30px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1600') center/cover;
-            opacity: 0.15;
-        }
-        
-        .hero-content {
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero h1 {
-            font-size: 56px;
-            margin-bottom: 20px;
-            animation: fadeInUp 1s ease;
-        }
-        
-        .hero p {
-            font-size: 24px;
-            margin-bottom: 40px;
-            opacity: 0.95;
-            animation: fadeInUp 1s ease 0.2s backwards;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-            color: #2d3436;
-            padding: 18px 50px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 18px;
-            box-shadow: 0 10px 30px rgba(253, 160, 133, 0.4);
-            transition: all 0.3s;
-            animation: fadeInUp 1s ease 0.4s backwards;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(253, 160, 133, 0.6);
-        }
-        
-        /* Section Styles */
-        section {
-            padding: 80px 30px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .section-title {
-            text-align: center;
-            font-size: 42px;
-            color: #667eea;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-        
-        .section-subtitle {
-            text-align: center;
-            font-size: 20px;
-            color: #636e72;
-            margin-bottom: 60px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        /* Problem Solution Section */
-        .problem-solution {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        }
-        
-        .ps-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            margin-top: 40px;
-        }
-        
-        .ps-card {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-        
-        .ps-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-        }
-        
-        .ps-card.problem {
-            border-top: 5px solid #fdcb6e;
-        }
-        
-        .ps-card.solution {
-            border-top: 5px solid #55efc4;
-        }
-        
-        .ps-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-        }
-        
-        .ps-card h3 {
-            font-size: 28px;
-            margin-bottom: 20px;
-            color: #2d3436;
-        }
-        
-        .ps-card p {
-            font-size: 16px;
-            line-height: 1.8;
-            color: #636e72;
-        }
-        
-        /* Image Section */
-        .image-section {
-            text-align: center;
-            padding: 60px 30px;
-        }
-        
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-top: 40px;
-        }
-        
-        .image-card {
-            position: relative;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: all 0.3s;
-            height: 300px;
-        }
-        
-        .image-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
-        }
-        
-        .image-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .image-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            color: white;
-            padding: 30px 20px 20px;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        
-        /* Benefits Section */
-        .benefits {
-            background: white;
-        }
-        
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            margin-top: 40px;
-        }
-        
-        .benefit-card {
-            background: linear-gradient(135deg, #e0e7ff 0%, #cfd9ff 100%);
-            padding: 35px 25px;
-            border-radius: 15px;
-            text-align: center;
-            transition: all 0.3s;
-            border-left: 5px solid #667eea;
-        }
-        
-        .benefit-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
-        }
-        
-        .benefit-icon {
-            font-size: 50px;
-            margin-bottom: 20px;
-        }
-        
-        .benefit-card h3 {
-            font-size: 20px;
-            color: #667eea;
-            margin-bottom: 15px;
-        }
-        
-        .benefit-card p {
-            font-size: 15px;
-            color: #2d3436;
-            line-height: 1.6;
-        }
-        
-        /* How It Works */
-        .how-it-works {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 30px;
-            margin-top: 50px;
-        }
-        
-        .step {
-            text-align: center;
-            position: relative;
-        }
-        
-        .step-number {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            font-weight: bold;
-            color: #2d3436;
-            margin: 0 auto 20px;
-            box-shadow: 0 10px 30px rgba(246, 211, 101, 0.4);
-        }
-        
-        .step h3 {
-            font-size: 18px;
-            margin-bottom: 15px;
-        }
-        
-        .step p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        /* Impact Section */
-        .impact {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            text-align: center;
-        }
-        
-        .impact-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-            margin-top: 50px;
-        }
-        
-        .stat {
-            background: white;
-            padding: 40px 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-        
-        .stat:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
-        }
-        
-        .stat-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-        }
-        
-        .stat-number {
-            font-size: 48px;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-        
-        .stat-label {
-            font-size: 18px;
-            color: #636e72;
-            font-weight: 500;
-        }
-        
-        /* SDG Section */
-        .sdg {
-            background: white;
-            text-align: center;
-        }
-        
-        .sdg-badges {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
-        
-        .sdg-badge {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px 40px;
-            border-radius: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-            transition: all 0.3s;
-        }
-        
-        .sdg-badge:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
-        }
-        
-        .sdg-number {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-        
-        /* CTA Section */
-        .cta-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-            padding: 100px 30px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .cta-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600') center/cover;
-            opacity: 0.1;
-        }
-        
-        .cta-section .container {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .cta-section h2 {
-            font-size: 48px;
-            margin-bottom: 25px;
-        }
-        
-        .cta-section p {
-            font-size: 22px;
-            margin-bottom: 40px;
-            opacity: 0.95;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        /* Footer */
-        footer {
-            background: #2d3436;
-            color: white;
-            padding: 50px 30px 30px;
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 50px;
-            margin-bottom: 40px;
-        }
-        
-        .footer-section h3 {
-            margin-bottom: 20px;
-            color: #f6d365;
-        }
-        
-        .footer-section p,
-        .footer-section a {
-            color: #b2bec3;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 10px;
-            transition: color 0.3s;
-        }
-        
-        .footer-section a:hover {
-            color: #f6d365;
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid #636e72;
-            color: #b2bec3;
-        }
-        
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Responsive */
-        @media (max-width: 968px) {
-            .ps-grid,
-            .image-grid,
-            .benefits-grid,
-            .steps,
-            .impact-stats,
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .hero h1 {
-                font-size: 36px;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Navigation -->
-    <nav>
-        <div class="container">
-            <div class="logo">ConnectUS</div>
-            <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#benefits">Benefits</a></li>
-                <li><a href="#how">How It Works</a></li>
-                <li><a href="#impact">Impact</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+{% extends "marketing_base.html" %}
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Bridging Cultures Through Language Learning</h1>
-            <p>Connecting English-speaking students with learners in Asia to create meaningful exchanges and break down barriers to education</p>
-            <a href="#contact" class="cta-button">Become a Partner</a>
-        </div>
-    </section>
+{% block title %}ConnectUS – Bridging Cultures Through Language Learning{% endblock %}
 
-    <!-- Problem & Solution -->
-    <section class="problem-solution" id="about">
-        <div class="container">
-            <h2 class="section-title">The Challenge We're Solving</h2>
-            <div class="ps-grid">
-                <div class="ps-card problem">
-                    <div class="ps-icon">🚧</div>
-                    <h3>The Problem</h3>
-                    <p>Students in East and South Asia face significant barriers to developing real-life English fluency. High costs of language courses, limited access to native speakers, and lack of practical speaking opportunities prevent millions of students from achieving their educational and career goals.</p>
-                </div>
-                <div class="ps-card solution">
-                    <div class="ps-icon">✨</div>
-                    <h3>Our Solution</h3>
-                    <p>ConnectUS creates a free virtual platform that connects English-speaking students from developed countries with Asian students. Through structured conversation sessions and cultural exchanges, we're making quality language practice accessible to everyone while fostering global understanding.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+{% block content %}
 
-    <!-- Image Section -->
-    <section class="image-section">
-        <div class="container">
-            <h2 class="section-title">Learning Together, Growing Together</h2>
-            <div class="image-grid">
-                <div class="image-card">
-                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600" alt="Students learning online">
-                    <div class="image-overlay">Virtual Connections</div>
-                </div>
-                <div class="image-card">
-                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600" alt="Students collaborating">
-                    <div class="image-overlay">Cultural Exchange</div>
-                </div>
-                <div class="image-card">
-                    <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600" alt="Happy students">
-                    <div class="image-overlay">Global Community</div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- Hero -->
+<section class="relative pt-32 pb-28 text-center text-white bg-primary">
+  <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1600')] bg-cover bg-center opacity-10"></div>
+  <div class="relative max-w-4xl mx-auto px-6">
+    <h1 class="text-4xl md:text-6xl font-bold mb-6">
+      <span class="lang-en">Bridging Cultures Through Language Learning</span>
+      <span class="lang-zh hidden">通过语言学习架起文化之桥</span>
+      <span class="lang-ko hidden">언어 학습으로 문화를 잇다</span>
+    </h1>
+    <p class="text-lg md:text-xl mb-10 opacity-90">
+      <span class="lang-en">Connecting English-speaking students with learners in Asia to create meaningful exchanges</span>
+      <span class="lang-zh hidden">将以英语为母语的学生与亚洲学习者连接，创造有意义的交流</span>
+      <span class="lang-ko hidden">영어권 학생들과 아시아 학습자를 연결하여 의미 있는 교류를 만듭니다</span>
+    </p>
+    <a href="#contact" class="inline-block bg-white text-primary font-bold px-12 py-4 rounded-lg shadow-lg hover:shadow-xl transition">
+      <span class="lang-en">Become a Partner</span>
+      <span class="lang-zh hidden">成为合作伙伴</span>
+      <span class="lang-ko hidden">파트너가 되기</span>
+    </a>
+  </div>
+</section>
 
-    <!-- Benefits -->
-    <section class="benefits" id="benefits">
-        <div class="container">
-            <h2 class="section-title">Social Impact &amp; Benefits</h2>
-            <p class="section-subtitle">ConnectUS creates value for all participants while contributing to global educational equity</p>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="benefit-icon">🌍</div>
-                    <h3>Global Citizenship</h3>
-                    <p>Students develop intercultural competence and global awareness through authentic cross-cultural interactions</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🤝</div>
-                    <h3>Meaningful Connections</h3>
-                    <p>Build lasting friendships and professional networks across borders</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">💡</div>
-                    <h3>Empathy &amp; Leadership</h3>
-                    <p>Become mentors and cultural ambassadors while developing essential soft skills</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🎓</div>
-                    <h3>Enhanced Learning</h3>
-                    <p>Improve communication skills and cultural literacy through practical experience</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- Problem & Solution -->
+<section id="about" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <h2 class="text-4xl font-bold text-center text-gray-900 mb-12">
+      <span class="lang-en">The Challenge We're Solving</span>
+      <span class="lang-zh hidden">我们要解决的挑战</span>
+      <span class="lang-ko hidden">우리가 해결하려는 문제</span>
+    </h2>
+    <div class="grid md:grid-cols-2 gap-12">
+      <div class="bg-gray-50 p-10 rounded-xl shadow-md border-l-4 border-primary hover:-translate-y-2 transition">
+        <div class="text-5xl mb-6">🚧</div>
+        <h3 class="text-2xl font-semibold mb-4 text-gray-900">
+          <span class="lang-en">The Problem</span>
+          <span class="lang-zh hidden">问题</span>
+          <span class="lang-ko hidden">문제</span>
+        </h3>
+        <p class="text-gray-600 leading-relaxed">
+          <span class="lang-en">Students in East and South Asia face barriers to real-life English fluency due to high costs, limited access to native speakers, and lack of practical conversation opportunities.</span>
+          <span class="lang-zh hidden">亚洲的学生在实现英语流利方面面临障碍，原因是费用高、缺乏母语者机会和缺乏实际会话机会。</span>
+          <span class="lang-ko hidden">동아시아 및 남아시아의 학생들은 높은 비용, 원어민 접근성 부족, 실용적 회화 기회 부족으로 영어 유창성 달성에 어려움을 겪고 있습니다。</span>
+        </p>
+      </div>
+      <div class="bg-gray-50 p-10 rounded-xl shadow-md border-l-4 border-primary hover:-translate-y-2 transition">
+        <div class="text-5xl mb-6">✨</div>
+        <h3 class="text-2xl font-semibold mb-4 text-gray-900">
+          <span class="lang-en">Our Solution</span>
+          <span class="lang-zh hidden">我们的解决方案</span>
+          <span class="lang-ko hidden">해결책</span>
+        </h3>
+        <p class="text-gray-600 leading-relaxed">
+          <span class="lang-en">ConnectUS is a free virtual platform connecting English-speaking students with Asian learners through structured conversation sessions and cultural exchange.</span>
+          <span class="lang-zh hidden">ConnectUS 是一个免费的虚拟平台，通过结构化会话和文化交流将以英语为母语的学生与亚洲学习者连接起来。</span>
+          <span class="lang-ko hidden">ConnectUS는 구조화된 대화 세션과 문화 교류를 통해 영어권 학생과 아시아 학습자를 연결하는 무료 가상 플랫폼입니다。</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- How It Works -->
-    <section class="how-it-works" id="how">
-        <div class="container">
-            <h2 class="section-title" style="color: white;">How It Works</h2>
-            <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">A simple 5-step process to create meaningful connections</p>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Register</h3>
-                    <p>Partner schools sign up their interested students</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Match</h3>
-                    <p>We pair students based on interests and availability</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Connect</h3>
-                    <p>Students meet virtually for conversation sessions</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <h3>Exchange</h3>
-                    <p>Cultural learning happens naturally through dialogue</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">5</div>
-                    <h3>Grow</h3>
-                    <p>Track progress and celebrate achievements together</p>
-                </div>
-            </div>
+<!-- Image Section -->
+<section class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h2 class="text-4xl font-bold text-gray-900 mb-12">
+      <span class="lang-en">Learning Together, Growing Together</span>
+      <span class="lang-zh hidden">一起学习，共同成长</span>
+      <span class="lang-ko hidden">함께 배우며 성장하기</span>
+    </h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="relative h-72 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition">
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600" class="w-full h-full object-cover">
+        <div class="absolute inset-x-0 bottom-0 bg-black/60 p-5 text-white font-semibold">
+          <span class="lang-en">Virtual Connections</span>
+          <span class="lang-zh hidden">虚拟连结</span>
+          <span class="lang-ko hidden">가상 연결</span>
         </div>
-    </section>
+      </div>
+      <div class="relative h-72 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition">
+        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600" class="w-full h-full object-cover">
+        <div class="absolute inset-x-0 bottom-0 bg-black/60 p-5 text-white font-semibold">
+          <span class="lang-en">Cultural Exchange</span>
+          <span class="lang-zh hidden">文化交流</span>
+          <span class="lang-ko hidden">문화 교류</span>
+        </div>
+      </div>
+      <div class="relative h-72 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition">
+        <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600" class="w-full h-full object-cover">
+        <div class="absolute inset-x-0 bottom-0 bg-black/60 p-5 text-white font-semibold">
+          <span class="lang-en">Global Community</span>
+          <span class="lang-zh hidden">全球社区</span>
+          <span class="lang-ko hidden">글로벌 커뮤니티</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Impact Stats -->
-    <section class="impact" id="impact">
-        <div class="container">
-            <h2 class="section-title">Our Impact</h2>
-            <p class="section-subtitle">Making a difference through meaningful partnerships</p>
-            <div class="impact-stats">
-                <div class="stat">
-                    <div class="stat-icon">💰</div>
-                    <div class="stat-number">FREE</div>
-                    <div class="stat-label">Zero Cost Platform</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-icon">🌏</div>
-                    <div class="stat-number">GLOBAL</div>
-                    <div class="stat-label">Worldwide Reach</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-icon">⚡</div>
-                    <div class="stat-number">EASY</div>
-                    <div class="stat-label">Simple Integration</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-icon">🏆</div>
-                    <div class="stat-number">IMPACTFUL</div>
-                    <div class="stat-label">Measurable Results</div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- Benefits -->
+<section id="benefits" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h2 class="text-4xl font-bold text-gray-900 mb-4">
+      <span class="lang-en">Social Impact & Benefits</span>
+      <span class="lang-zh hidden">社会影响与益处</span>
+      <span class="lang-ko hidden">사회적 영향 및 혜택</span>
+    </h2>
+    <p class="text-gray-600 max-w-2xl mx-auto mb-12">
+      <span class="lang-en">Creating value for students while advancing global educational equity</span>
+      <span class="lang-zh hidden">为学生创造价值，同时推进全球教育公平</span>
+      <span class="lang-ko hidden">학생들에게 가치를 제공하면서 전 세계 교육 형평성을 향상합니다</span>
+    </p>
+    <div class="grid md:grid-cols-4 gap-8">
+      <div class="bg-gray-50 p-8 rounded-xl border-l-4 border-primary hover:-translate-y-2 transition">
+        <div class="text-4xl mb-4">🌍</div>
+        <h3 class="font-semibold text-lg text-gray-900 mb-2">
+          <span class="lang-en">Global Citizenship</span>
+          <span class="lang-zh hidden">全球公民意识</span>
+          <span class="lang-ko hidden">글로벌 시민성</span>
+        </h3>
+        <p class="text-gray-600">
+          <span class="lang-en">Develop intercultural competence through authentic interaction.</span>
+          <span class="lang-zh hidden">通过真实互动培养跨文化能力。</span>
+          <span class="lang-ko hidden">진정한 상호작용을 통해 문화 간 능력을 개발합니다.</span>
+        </p>
+      </div>
+      <div class="bg-gray-50 p-8 rounded-xl border-l-4 border-primary hover:-translate-y-2 transition">
+        <div class="text-4xl mb-4">🤝</div>
+        <h3 class="font-semibold text-lg text-gray-900 mb-2">
+          <span class="lang-en">Meaningful Connections</span>
+          <span class="lang-zh hidden">有意义的连接</span>
+          <span class="lang-ko hidden">의미 있는 연결</span>
+        </h3>
+        <p class="text-gray-600">
+          <span class="lang-en">Build lasting friendships and professional networks.</span>
+          <span class="lang-zh hidden">建立持久的友谊和职业网络。</span>
+          <span class="lang-ko hidden">지속적인 우정과 전문적인 네트워크를 구축합니다.</span>
+        </p>
+      </div>
+      <div class="bg-gray-50 p-8 rounded-xl border-l-4 border-primary hover:-translate-y-2 transition">
+        <div class="text-4xl mb-4">💡</div>
+        <h3 class="font-semibold text-lg text-gray-900 mb-2">
+          <span class="lang-en">Leadership & Empathy</span>
+          <span class="lang-zh hidden">领导力与共情</span>
+          <span class="lang-ko hidden">리더십 및 공감</span>
+        </h3>
+        <p class="text-gray-600">
+          <span class="lang-en">Grow as a mentor and cultural ambassador.</span>
+          <span class="lang-zh hidden">成长为导师和文化大使。</span>
+          <span class="lang-ko hidden">멘토이자 문화 홍보자로 성장합니다.</span>
+        </p>
+      </div>
+      <div class="bg-gray-50 p-8 rounded-xl border-l-4 border-primary hover:-translate-y-2 transition">
+        <div class="text-4xl mb-4">🎓</div>
+        <h3 class="font-semibold text-lg text-gray-900 mb-2">
+          <span class="lang-en">Enhanced Learning</span>
+          <span class="lang-zh hidden">提升学习效果</span>
+          <span class="lang-ko hidden">향상된 학습</span>
+        </h3>
+        <p class="text-gray-600">
+          <span class="lang-en">Improve communication skills through practice.</span>
+          <span class="lang-zh hidden">通过练习提高沟通技能。</span>
+          <span class="lang-ko hidden">연습을 통해 의사소통 능력을 향상합니다.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- SDG Alignment -->
-    <section class="sdg">
-        <div class="container">
-            <h2 class="section-title">Aligned with UN Sustainable Development Goals</h2>
-            <p class="section-subtitle">Our work directly contributes to global development objectives</p>
-            <div class="sdg-badges">
-                <div class="sdg-badge">
-                    <div class="sdg-number">🎯 4</div>
-                    <div>Quality Education</div>
-                </div>
-                <div class="sdg-badge">
-                    <div class="sdg-number">🎯 10</div>
-                    <div>Reduced Inequalities</div>
-                </div>
-                <div class="sdg-badge">
-                    <div class="sdg-number">🎯 17</div>
-                    <div>Partnerships for the Goals</div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- How It Works -->
+<section id="how" class="py-20 text-white bg-primary">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h2 class="text-4xl font-bold mb-4">
+      <span class="lang-en">How It Works</span>
+      <span class="lang-zh hidden">运作方式</span>
+      <span class="lang-ko hidden">작동 방식</span>
+    </h2>
+    <p class="opacity-90 mb-12">
+      <span class="lang-en">A simple 5-step process</span>
+      <span class="lang-zh hidden">简单的五个步骤</span>
+      <span class="lang-ko hidden">간단한 5단계 과정</span>
+    </p>
+    <div class="grid md:grid-cols-5 gap-8">
+      <div>
+        <div class="mx-auto w-20 h-20 rounded-full bg-white text-primary flex items-center justify-center text-2xl font-bold mb-4">1</div>
+        <h3 class="font-semibold mb-2">
+          <span class="lang-en">Register</span>
+          <span class="lang-zh hidden">注册</span>
+          <span class="lang-ko hidden">등록</span>
+        </h3>
+        <p class="text-sm opacity-90">
+          <span class="lang-en">Partner schools sign up students</span>
+          <span class="lang-zh hidden">合作学校为学生注册</span>
+          <span class="lang-ko hidden">파트너 학교가 학생을 등록합니다</span>
+        </p>
+      </div>
+      <div>
+        <div class="mx-auto w-20 h-20 rounded-full bg-white text-primary flex items-center justify-center text-2xl font-bold mb-4">2</div>
+        <h3 class="font-semibold mb-2">
+          <span class="lang-en">Match</span>
+          <span class="lang-zh hidden">匹配</span>
+          <span class="lang-ko hidden">매칭</span>
+        </h3>
+        <p class="text-sm opacity-90">
+          <span class="lang-en">Students matched by interests</span>
+          <span class="lang-zh hidden">根据兴趣为学生匹配</span>
+          <span class="lang-ko hidden">학생들을 관심사별로 매칭합니다</span>
+        </p>
+      </div>
+      <div>
+        <div class="mx-auto w-20 h-20 rounded-full bg-white text-primary flex items-center justify-center text-2xl font-bold mb-4">3</div>
+        <h3 class="font-semibold mb-2">
+          <span class="lang-en">Connect</span>
+          <span class="lang-zh hidden">连接</span>
+          <span class="lang-ko hidden">연결</span>
+        </h3>
+        <p class="text-sm opacity-90">
+          <span class="lang-en">Virtual conversation sessions</span>
+          <span class="lang-zh hidden">虚拟会话环节</span>
+          <span class="lang-ko hidden">가상 대화 세션</span>
+        </p>
+      </div>
+      <div>
+        <div class="mx-auto w-20 h-20 rounded-full bg-white text-primary flex items-center justify-center text-2xl font-bold mb-4">4</div>
+        <h3 class="font-semibold mb-2">
+          <span class="lang-en">Exchange</span>
+          <span class="lang-zh hidden">交流</span>
+          <span class="lang-ko hidden">교류</span>
+        </h3>
+        <p class="text-sm opacity-90">
+          <span class="lang-en">Cultural learning through dialogue</span>
+          <span class="lang-zh hidden">通过对话进行文化学习</span>
+          <span class="lang-ko hidden">대화를 통한 문화 학습</span>
+        </p>
+      </div>
+      <div>
+        <div class="mx-auto w-20 h-20 rounded-full bg-white text-primary flex items-center justify-center text-2xl font-bold mb-4">5</div>
+        <h3 class="font-semibold mb-2">
+          <span class="lang-en">Grow</span>
+          <span class="lang-zh hidden">成长</span>
+          <span class="lang-ko hidden">성장</span>
+        </h3>
+        <p class="text-sm opacity-90">
+          <span class="lang-en">Track progress & celebrate</span>
+          <span class="lang-zh hidden">跟踪进展并庆祝成果</span>
+          <span class="lang-ko hidden">진행 상황을 추적하고 성과를 축하합니다</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- CTA Section -->
-    <section class="cta-section" id="contact">
-        <div class="container">
-            <h2>Join Us in Making a Difference</h2>
-            <p>Partner with ConnectUS to give your students a meaningful global learning experience while breaking down barriers to education for students worldwide.</p>
-            <a href="mailto:contact@connectus-platform.org" class="cta-button">Become a Partner Today</a>
-        </div>
-    </section>
+<!-- CTA -->
+<section id="contact" class="py-28 text-center text-white bg-primary relative">
+  <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600')] bg-cover bg-center opacity-5"></div>
+  <div class="relative max-w-4xl mx-auto px-6">
+    <h2 class="text-4xl font-bold mb-6">
+      <span class="lang-en">Join Us in Making a Difference</span>
+      <span class="lang-zh hidden">加入我们，一起创造改变</span>
+      <span class="lang-ko hidden">함께 변화를 만들어갑시다</span>
+    </h2>
+    <p class="text-lg mb-10 opacity-90">
+      <span class="lang-en">Partner with ConnectUS to create meaningful global learning experiences.</span>
+      <span class="lang-zh hidden">与 ConnectUS 合作，创造有意义的全球学习体验。</span>
+      <span class="lang-ko hidden">ConnectUS와 협력하여 의미 있는 글로벌 학습 경험을 만드세요.</span>
+    </p>
+    <a href="mailto:contact@connectus-platform.org" class="inline-block bg-white text-primary font-bold px-12 py-4 rounded-lg shadow-lg hover:shadow-xl transition">
+      <span class="lang-en">Become a Partner Today</span>
+      <span class="lang-zh hidden">现在成为合作伙伴</span>
+      <span class="lang-ko hidden">오늘 파트너가 되세요</span>
+    </a>
+  </div>
+</section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>ConnectUS</h3>
-                <p>Bridging cultures through language learning and creating meaningful connections between students worldwide.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <a href="#about">About Us</a>
-                <a href="#benefits">Benefits</a>
-                <a href="#how">How It Works</a>
-                <a href="#impact">Impact</a>
-            </div>
-            <div class="footer-section">
-                <h3>Contact</h3>
-                <p>📧 contact@connectus-platform.org</p>
-                <p>🌐 www.connectus-platform.org</p>
-                <p>💬 Let's create lasting impact together</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2026 ConnectUS. All rights reserved. | Making education accessible for everyone.</p>
-        </div>
-    </footer>
+{% endblock %}
 
-</body></html>
+
+<!-- Hero -->
+<section class="relative pt-32 pb-28 text-center text-white bg-primary">
+  <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1600')] bg-cover bg-center opacity-10"></div>
+  <div class="relative max-w-4xl mx-auto px-6">
+    <h1 class="text-4xl md:text-6xl font-bold mb-6">
+      Bridging Cultures Through Language Learning
+    </h1>
+    <p class="text-lg md:text-xl mb-10 opacity-90">
+      Connecting English-speaking students with learners in Asia to create meaningful exchanges
+    </p>
+    <a href="#contact"
+       class="inline-block bg-white text-primary font-bold px-12 py-4 rounded-lg shadow-lg hover:shadow-xl transition">
+      Become a Partner
+    </a>
+  </div>
+</section>
+
+<!-- Problem & Solution -->
+<section id="about" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <h2 class="text-4xl font-bold text-center text-gray-900 mb-12">The Challenge We're Solving</h2>
+    <div class="grid md:grid-cols-2 gap-12">
+      <div class="bg-gray-50 p-10 rounded-xl shadow-md border-l-4 border-primary hover:-translate-y-2 transition">
+        <div class="text-5xl mb-6">🚧</div>
+        <h3 class="text-2xl font-semibold mb-4 text-gray-900">The Problem</h3>
+        <p class="text-gray-600 leading-relaxed">
+          Students in East and South Asia face barriers to real-life English fluency due to high costs,
+          limited access to native speakers, and lack of practical conversation opportunities.
+        </p>
+      </div>
+      <div class="bg-gray-50 p-10 rounded-xl shadow-md border-l-4 border-primary hover:-translate-y-2 transition">
+        <div class="text-5xl mb-6">✨</div>
+        <h3 class="text-2xl font-semibold mb-4 text-gray-900">Our Solution</h3>
+        <p class="text-gray-600 leading-relaxed">
+          ConnectUS is a free virtual platform connecting English-speaking students with Asian learners
+          through structured conversation sessions and cultural exchange.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Image Section -->
+<section class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h2 class="text-4xl font-bold text-gray-900 mb-12">Learning Together, Growing Together</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="relative h-72 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition">
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600" class="w-full h-full object-cover">
+        <div class="absolute inset-x-0 bottom-0 bg-black/60 p-5 text-white font-semibold">
+          Virtual Connections
+        </div>
+      </div>
+      <div class="relative h-72 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition">
+        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600" class="w-full h-full object-cover">
+        <div class="absolute inset-x-0 bottom-0 bg-black/60 p-5 text-white font-semibold">
+          Cultural Exchange
+        </div>
+      </div>
+      <div class="relative h-72 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition">
+        <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600" class="w-full h-full object-cover">
+        <div class="absolute inset-x-0 bottom-0 bg-black/60 p-5 text-white font-semibold">
+          Global Community
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Benefits -->
+<section id="benefits" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h2 class="text-4xl font-bold text-gray-900 mb-4">Social Impact & Benefits</h2>
+    <p class="text-gray-600 max-w-2xl mx-auto mb-12">
+      Creating value for students while advancing global educational equity
+    </p>
+    <div class="grid md:grid-cols-4 gap-8">
+      <div class="bg-gray-50 p-8 rounded-xl border-l-4 border-primary hover:-translate-y-2 transition">
+        <div class="text-4xl mb-4">🌍</div>
+        <h3 class="font-semibold text-lg text-gray-900 mb-2">Global Citizenship</h3>
+        <p class="text-gray-600">Develop intercultural competence through authentic interaction.</p>
+      </div>
+      <div class="bg-gray-50 p-8 rounded-xl border-l-4 border-primary hover:-translate-y-2 transition">
+        <div class="text-4xl mb-4">🤝</div>
+        <h3 class="font-semibold text-lg text-gray-900 mb-2">Meaningful Connections</h3>
+        <p class="text-gray-600">Build lasting friendships and professional networks.</p>
+      </div>
+      <div class="bg-gray-50 p-8 rounded-xl border-l-4 border-primary hover:-translate-y-2 transition">
+        <div class="text-4xl mb-4">💡</div>
+        <h3 class="font-semibold text-lg text-gray-900 mb-2">Leadership & Empathy</h3>
+        <p class="text-gray-600">Grow as a mentor and cultural ambassador.</p>
+      </div>
+      <div class="bg-gray-50 p-8 rounded-xl border-l-4 border-primary hover:-translate-y-2 transition">
+        <div class="text-4xl mb-4">🎓</div>
+        <h3 class="font-semibold text-lg text-gray-900 mb-2">Enhanced Learning</h3>
+        <p class="text-gray-600">Improve communication skills through practice.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section id="how" class="py-20 text-white bg-primary">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h2 class="text-4xl font-bold mb-4">How It Works</h2>
+    <p class="opacity-90 mb-12">A simple 5-step process</p>
+    <div class="grid md:grid-cols-5 gap-8">
+      <div>
+        <div class="mx-auto w-20 h-20 rounded-full bg-white text-primary flex items-center justify-center text-2xl font-bold mb-4">1</div>
+        <h3 class="font-semibold mb-2">Register</h3>
+        <p class="text-sm opacity-90">Partner schools sign up students</p>
+      </div>
+      <div>
+        <div class="mx-auto w-20 h-20 rounded-full bg-white text-primary flex items-center justify-center text-2xl font-bold mb-4">2</div>
+        <h3 class="font-semibold mb-2">Match</h3>
+        <p class="text-sm opacity-90">Students matched by interests</p>
+      </div>
+      <div>
+        <div class="mx-auto w-20 h-20 rounded-full bg-white text-primary flex items-center justify-center text-2xl font-bold mb-4">3</div>
+        <h3 class="font-semibold mb-2">Connect</h3>
+        <p class="text-sm opacity-90">Virtual conversation sessions</p>
+      </div>
+      <div>
+        <div class="mx-auto w-20 h-20 rounded-full bg-white text-primary flex items-center justify-center text-2xl font-bold mb-4">4</div>
+        <h3 class="font-semibold mb-2">Exchange</h3>
+        <p class="text-sm opacity-90">Cultural learning through dialogue</p>
+      </div>
+      <div>
+        <div class="mx-auto w-20 h-20 rounded-full bg-white text-primary flex items-center justify-center text-2xl font-bold mb-4">5</div>
+        <h3 class="font-semibold mb-2">Grow</h3>
+        <p class="text-sm opacity-90">Track progress & celebrate</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contact" class="py-28 text-center text-white bg-primary relative">
+  <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600')] bg-cover bg-center opacity-5"></div>
+  <div class="relative max-w-4xl mx-auto px-6">
+    <h2 class="text-4xl font-bold mb-6">Join Us in Making a Difference</h2>
+    <p class="text-lg mb-10 opacity-90">
+      Partner with ConnectUS to create meaningful global learning experiences.
+    </p>
+    <a href="mailto:contact@connectus-platform.org"
+       class="inline-block bg-white text-primary font-bold px-12 py-4 rounded-lg shadow-lg hover:shadow-xl transition">
+      Become a Partner Today
+    </a>
+  </div>
+</section>
+

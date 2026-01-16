@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}ConnectUS – Bridging Cultures Through Language Learning{% endblock %}</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#667eea",
+            secondary: "#764ba2",
+            accent: "#fda085",
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Mobile Menu Script -->
+  <script>
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+    }
+  </script>
+
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body class="font-sans text-gray-800 overflow-x-hidden flex flex-col min-h-screen">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full z-50 bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
+      <div class="text-primary text-2xl font-bold tracking-wider">
+        <a href="/">ConnectUS</a>
+      </div>
+      
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-10">
+        <ul class="flex space-x-10 text-gray-700 font-medium">
+          <li><a href="/#about" class="hover:text-primary transition">About</a></li>
+          <li><a href="/#benefits" class="hover:text-primary transition">Benefits</a></li>
+          <li><a href="/#how" class="hover:text-primary transition">How It Works</a></li>
+          <li><a href="/#impact" class="hover:text-primary transition">Impact</a></li>
+          <li><a href="/#contact" class="hover:text-primary transition">Contact</a></li>
+        </ul>
+        <div class="flex items-center space-x-4">
+          <!-- Language dropdown -->
+          <div class="relative" id="langDropdown">
+            <button id="langDropdownBtn" aria-haspopup="true" aria-expanded="false" class="flex items-center space-x-2 px-3 py-1 rounded-md border border-gray-200 hover:shadow-sm focus:outline-none">
+              <span id="langDropdownFlag" class="text-2xl">🇬🇧</span>
+              <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="langDropdownMenu" class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-md z-50">
+              <button data-lang="en" class="w-full text-left px-4 py-2 hover:bg-gray-50">🇬🇧 English</button>
+              <button data-lang="zh" class="w-full text-left px-4 py-2 hover:bg-gray-50">🇨🇳 中文</button>
+              <button data-lang="ko" class="w-full text-left px-4 py-2 hover:bg-gray-50">🇰🇷 한국어</button>
+            </div>
+          </div>
+
+          <a href="/dashboard" class="bg-primary text-white font-bold px-8 py-2 rounded-lg hover:shadow-lg transition shadow-md">
+            Open App
+          </a>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button onclick="toggleMobileMenu()" class="md:hidden text-gray-700 text-3xl focus:outline-none">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-200">
+      <ul class="flex flex-col space-y-0 text-gray-700 font-medium">
+        <li><a href="/#about" class="block px-8 py-4 hover:bg-gray-50 transition border-b border-gray-100">About</a></li>
+        <li><a href="/#benefits" class="block px-8 py-4 hover:bg-gray-50 transition border-b border-gray-100">Benefits</a></li>
+        <li><a href="/#how" class="block px-8 py-4 hover:bg-gray-50 transition border-b border-gray-100">How It Works</a></li>
+        <li><a href="/#impact" class="block px-8 py-4 hover:bg-gray-50 transition border-b border-gray-100">Impact</a></li>
+        <li><a href="/#contact" class="block px-8 py-4 hover:bg-gray-50 transition border-b border-gray-100">Contact</a></li>
+        <li><a href="/dashboard" class="block px-8 py-4 hover:bg-gray-50 transition">Open App</a></li>
+        <li class="px-6 py-4 border-t border-gray-100">
+          <div class="flex items-center space-x-3">
+            <button data-lang="en" class="lang-btn-mobile">🇬🇧 English</button>
+            <button data-lang="zh" class="lang-btn-mobile">🇨🇳 中文</button>
+            <button data-lang="ko" class="lang-btn-mobile">🇰🇷 한국어</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <script>
+    // Language switcher: show/hide .lang-en / .lang-zh / .lang-ko elements
+    function setLanguage(lang) {
+      const langs = ['en','zh','ko'];
+      langs.forEach(l => {
+        document.querySelectorAll('.lang-' + l).forEach(el => {
+          if (l === lang) el.classList.remove('hidden'); else el.classList.add('hidden');
+        });
+      });
+      try { localStorage.setItem('connectus_lang', lang); } catch(e){}
+    }
+
+    document.addEventListener('DOMContentLoaded', function(){
+      // initialize from storage or default to en
+      const saved = (localStorage.getItem('connectus_lang') || 'en');
+      setLanguage(saved);
+
+      // helper to show flag on dropdown button
+      function setFlagIcon(lang){
+        const flag = { en: '🇬🇧', zh: '🇨🇳', ko: '🇰🇷' }[lang] || '🇬🇧';
+        const el = document.getElementById('langDropdownFlag'); if(el) el.textContent = flag;
+      }
+      setFlagIcon(saved);
+
+      // Dropdown toggle
+      const dropdownBtn = document.getElementById('langDropdownBtn');
+      const dropdownMenu = document.getElementById('langDropdownMenu');
+      const dropdownRoot = document.getElementById('langDropdown');
+
+      if(dropdownBtn && dropdownMenu){
+        dropdownBtn.addEventListener('click', function(e){
+          e.stopPropagation();
+          const isHidden = dropdownMenu.classList.contains('hidden');
+          if(isHidden){ dropdownMenu.classList.remove('hidden'); dropdownBtn.setAttribute('aria-expanded','true'); }
+          else { dropdownMenu.classList.add('hidden'); dropdownBtn.setAttribute('aria-expanded','false'); }
+        });
+
+        dropdownMenu.querySelectorAll('button[data-lang]').forEach(btn => {
+          btn.addEventListener('click', function(){
+            const lang = this.dataset.lang;
+            setLanguage(lang);
+            setFlagIcon(lang);
+            dropdownMenu.classList.add('hidden');
+            dropdownBtn.setAttribute('aria-expanded','false');
+          });
+        });
+
+        // close when clicking outside
+        document.addEventListener('click', function(e){ if(!dropdownRoot.contains(e.target)){ dropdownMenu.classList.add('hidden'); dropdownBtn.setAttribute('aria-expanded','false'); } });
+      }
+
+      // mobile buttons
+      document.querySelectorAll('.lang-btn-mobile').forEach(btn => {
+        btn.addEventListener('click', function(){ setLanguage(this.dataset.lang); toggleMobileMenu(); setFlagIcon(this.dataset.lang); });
+      });
+    });
+  </script>
+
+  <!-- Main Content -->
+  <main class="flex-1 pt-20">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 mt-20">
+    <div class="max-w-7xl mx-auto px-6 py-16">
+      <div class="grid md:grid-cols-4 gap-12 mb-12">
+        <!-- Brand -->
+        <div>
+          <h3 class="text-white text-xl font-bold mb-4">ConnectUS</h3>
+          <p class="text-sm leading-relaxed">
+            Bridging cultures through language learning. Connecting English-speaking students with learners in Asia.
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-white font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/#about" class="hover:text-primary transition">About Us</a></li>
+            <li><a href="/#benefits" class="hover:text-primary transition">Benefits</a></li>
+            <li><a href="/#how" class="hover:text-primary transition">How It Works</a></li>
+            <li><a href="/dashboard" class="hover:text-primary transition">Dashboard</a></li>
+          </ul>
+        </div>
+
+        <!-- Resources -->
+        <div>
+          <h3 class="text-white font-semibold mb-4">Resources</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-primary transition">Blog</a></li>
+            <li><a href="#" class="hover:text-primary transition">FAQ</a></li>
+            <li><a href="#" class="hover:text-primary transition">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-primary transition">Terms of Service</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h3 class="text-white font-semibold mb-4">Contact</h3>
+          <p class="text-sm mb-2">📧 <a href="mailto:contact@connectus-platform.org" class="hover:text-primary transition">contact@connectus-platform.org</a></p>
+          <p class="text-sm">🌐 <a href="#" class="hover:text-primary transition">www.connectus-platform.org</a></p>
+        </div>
+      </div>
+
+      <div class="text-center border-t border-gray-700 pt-8">
+        <p class="text-sm">© 2026 ConnectUS. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

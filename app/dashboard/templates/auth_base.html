@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}Auth - ConnectUS{% endblock %}</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { primary: '#667eea' } } } }
+  </script>
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="min-h-screen bg-gray-50 font-sans text-gray-800 flex flex-col">
+
+  <main class="flex-1 flex items-center justify-center px-4 py-10">
+    <div class="w-full max-w-md">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <footer class="bg-white border-t border-gray-200">
+    <div class="max-w-3xl mx-auto px-6 py-6 text-sm text-gray-600 text-center">
+      © 2026 ConnectUS — <a href="mailto:support@connectus-platform.org" class="text-primary hover:underline">Support</a>
+    </div>
+  </footer>
+
+</body>
+</html>

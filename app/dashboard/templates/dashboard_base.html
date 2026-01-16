@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Dashboard - ConnectUS{% endblock %}</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#667eea",
+            secondary: "#764ba2",
+            accent: "#fda085",
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Mobile Menu Script -->
+  <script>
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+    }
+  </script>
+
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body class="font-sans text-gray-800 overflow-x-hidden flex flex-col min-h-screen bg-gray-50">
+
+  <!-- Navigation -->
+  <nav class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
+      <div class="text-primary text-2xl font-bold tracking-wider">
+        <a href="/">ConnectUS</a>
+      </div>
+      
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-10">
+        <ul class="flex space-x-10 text-gray-700 font-medium">
+          <li><a href="/dashboard" class="hover:text-primary transition">Dashboard</a></li>
+          <li><a href="/dashboard/connections" class="hover:text-primary transition">Connections</a></li>
+          <li><a href="/dashboard/sessions" class="hover:text-primary transition">Sessions</a></li>
+          <li><a href="/dashboard/profile" class="hover:text-primary transition">Profile</a></li>
+        </ul>
+        <a href="/" class="text-gray-700 hover:text-primary transition">Back to Home</a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button onclick="toggleMobileMenu()" class="md:hidden text-gray-700 text-3xl focus:outline-none">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-200">
+      <ul class="flex flex-col space-y-0 text-gray-700 font-medium">
+        <li><a href="/dashboard" class="block px-8 py-4 hover:bg-gray-50 transition border-b border-gray-100">Dashboard</a></li>
+        <li><a href="/dashboard/connections" class="block px-8 py-4 hover:bg-gray-50 transition border-b border-gray-100">Connections</a></li>
+        <li><a href="/dashboard/sessions" class="block px-8 py-4 hover:bg-gray-50 transition border-b border-gray-100">Sessions</a></li>
+        <li><a href="/dashboard/profile" class="block px-8 py-4 hover:bg-gray-50 transition border-b border-gray-100">Profile</a></li>
+        <li><a href="/" class="block px-8 py-4 hover:bg-gray-50 transition">Back to Home</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl mx-auto px-6 py-10 w-full">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-gray-200 mt-20">
+    <div class="max-w-7xl mx-auto px-6 py-8">
+      <div class="grid md:grid-cols-3 gap-8 mb-8">
+        <!-- Brand -->
+        <div>
+          <h3 class="text-primary font-bold mb-2">ConnectUS</h3>
+          <p class="text-sm text-gray-600">
+            Bridging cultures through language learning.
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h3 class="font-semibold text-gray-900 mb-3">Quick Links</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/" class="text-gray-600 hover:text-primary transition">Home</a></li>
+            <li><a href="/dashboard" class="text-gray-600 hover:text-primary transition">Dashboard</a></li>
+            <li><a href="/dashboard/profile" class="text-gray-600 hover:text-primary transition">Profile</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div>
+          <h3 class="font-semibold text-gray-900 mb-3">Support</h3>
+          <p class="text-sm text-gray-600">📧 <a href="mailto:support@connectus-platform.org" class="hover:text-primary transition">support@connectus-platform.org</a></p>
+        </div>
+      </div>
+
+      <div class="text-center border-t border-gray-200 pt-6">
+        <p class="text-sm text-gray-600">© 2026 ConnectUS. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

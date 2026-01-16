@@ -38,6 +38,7 @@ CSRF_TRUSTED_ORIGINS = [f"https://{FLY_APP_NAME}.fly.dev"] if FLY_APP_NAME else 
 
 INSTALLED_APPS = [
     "core",
+    "dashboard",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

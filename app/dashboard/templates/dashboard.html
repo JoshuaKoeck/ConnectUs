@@ -1,0 +1,135 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Dashboard - ConnectUS{% endblock %}
+
+{% block content %}
+
+<!-- Welcome Section -->
+<div class="mb-12">
+  <h1 class="text-4xl font-bold text-gray-900 mb-2">Welcome back, User! 👋</h1>
+  <p class="text-lg text-gray-600">Here's your learning journey with ConnectUS</p>
+</div>
+
+<!-- Learning Journey -->
+<div class="space-y-8">
+
+  <!-- Step 1: Beginning English Test -->
+  <div class="bg-white rounded-xl shadow-md p-8 border-l-4 border-primary">
+    <div class="flex items-start justify-between">
+      <div class="flex-1">
+        <div class="flex items-center mb-2">
+          <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm mr-3">1</div>
+          <h2 class="text-2xl font-bold text-gray-900">Beginning English Assessment</h2>
+        </div>
+        <p class="text-gray-600 mb-4">Start by taking our English proficiency test. This helps us understand your current level and match you with the right learning partner.</p>
+        
+        <div class="space-y-2">
+          <p class="text-sm text-gray-600">
+            <span class="font-semibold">Status:</span> 
+            <span class="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">Not Started</span>
+          </p>
+          <p class="text-sm text-gray-600"><span class="font-semibold">Duration:</span> ~20 minutes</p>
+        </div>
+      </div>
+      <button class="bg-primary text-white font-bold px-8 py-3 rounded-lg hover:shadow-lg transition shadow-md whitespace-nowrap ml-4">
+        Start Test
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 2: Sessions -->
+  <div class="bg-white rounded-xl shadow-md p-8 border-l-4 border-primary">
+    <div class="mb-6">
+      <div class="flex items-center mb-2">
+        <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm mr-3">2</div>
+        <h2 class="text-2xl font-bold text-gray-900">Your Learning Sessions</h2>
+      </div>
+      <p class="text-gray-600">Connect with your language learning partner and have meaningful conversations.</p>
+    </div>
+
+    <!-- Session Tabs -->
+    <div class="mb-6">
+      <div class="flex space-x-4 border-b border-gray-200">
+        <button class="px-4 py-3 border-b-2 border-primary text-primary font-semibold">Active & Upcoming</button>
+        <button class="px-4 py-3 border-b-2 border-transparent text-gray-600 hover:text-gray-900 font-semibold">Completed</button>
+      </div>
+    </div>
+
+    <!-- Sessions List -->
+    <div class="space-y-4">
+      <!-- Active Session -->
+      <div class="border border-gray-200 rounded-lg p-5 bg-gray-50">
+        <div class="flex items-start justify-between mb-3">
+          <div>
+            <h3 class="font-semibold text-gray-900 text-lg">Session with Sarah Chen</h3>
+            <p class="text-sm text-gray-600">Scheduled for January 20, 2026 at 3:00 PM UTC</p>
+          </div>
+          <span class="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">Upcoming</span>
+        </div>
+        <p class="text-sm text-gray-600 mb-4">Topics: Cultural exchange, travel stories, everyday conversations</p>
+        <button class="text-primary font-semibold hover:underline">View Details →</button>
+      </div>
+
+      <!-- Past Session -->
+      <div class="border border-gray-200 rounded-lg p-5 bg-gray-50">
+        <div class="flex items-start justify-between mb-3">
+          <div>
+            <h3 class="font-semibold text-gray-900 text-lg">Session with Priya Kumar</h3>
+            <p class="text-sm text-gray-600">Completed on January 13, 2026</p>
+          </div>
+          <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">Completed</span>
+        </div>
+        <p class="text-sm text-gray-600 mb-4">Topics: Indian cuisine, family traditions, music preferences</p>
+        <button class="text-primary font-semibold hover:underline">View Recording & Feedback →</button>
+      </div>
+    </div>
+
+    <!-- CTA for More Sessions -->
+    <div class="mt-6 pt-6 border-t border-gray-200">
+      <button class="text-primary font-bold hover:underline">Schedule Another Session →</button>
+    </div>
+  </div>
+
+  <!-- Step 3: End English Test -->
+  <div class="bg-white rounded-xl shadow-md p-8 border-l-4 border-gray-300">
+    <div class="flex items-start justify-between">
+      <div class="flex-1">
+        <div class="flex items-center mb-2">
+          <div class="w-8 h-8 rounded-full bg-gray-300 text-white flex items-center justify-center font-bold text-sm mr-3">3</div>
+          <h2 class="text-2xl font-bold text-gray-900">End English Assessment</h2>
+        </div>
+        <p class="text-gray-600 mb-4">After completing several sessions, take the end test to measure your progress and improvements in English fluency.</p>
+        
+        <div class="space-y-2">
+          <p class="text-sm text-gray-600">
+            <span class="font-semibold">Status:</span> 
+            <span class="inline-block px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">Locked</span>
+          </p>
+          <p class="text-sm text-gray-600"><span class="font-semibold">Note:</span> Complete at least 5 sessions before taking this test</p>
+        </div>
+      </div>
+      <button disabled class="bg-gray-300 text-gray-600 font-bold px-8 py-3 rounded-lg cursor-not-allowed whitespace-nowrap ml-4">
+        Start Test
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Progress Stats -->
+<div class="mt-12 grid md:grid-cols-3 gap-6">
+  <div class="bg-white rounded-xl shadow-md p-6 text-center">
+    <div class="text-4xl font-bold text-primary mb-2">1/5</div>
+    <p class="text-gray-600">Sessions Completed</p>
+  </div>
+  <div class="bg-white rounded-xl shadow-md p-6 text-center">
+    <div class="text-4xl font-bold text-primary mb-2">45 min</div>
+    <p class="text-gray-600">Total Learning Time</p>
+  </div>
+  <div class="bg-white rounded-xl shadow-md p-6 text-center">
+    <div class="text-4xl font-bold text-primary mb-2">2</div>
+    <p class="text-gray-600">Connections Made</p>
+  </div>
+</div>
+
+{% endblock %}
