@@ -26,6 +26,11 @@ class CustomUserCreationForm(UserCreationForm):
         required=True,
         help_text='You must agree to the terms and conditions.'
     )
+    is_mentor = forms.BooleanField(
+        required=True,
+        label='I want to register as a mentor',
+        help_text='Optional: check to sign up as a mentor.'
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

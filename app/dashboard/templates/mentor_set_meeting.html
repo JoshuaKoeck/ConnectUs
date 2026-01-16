@@ -1,0 +1,37 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Set Meeting — Mentor{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white rounded-xl shadow p-8">
+  <h1 class="text-2xl font-bold mb-4">Set Next Meeting for {{ mentee.get_full_name|default:mentee.username }}</h1>
+
+  <form method="post" class="space-y-4">
+    {% csrf_token %}
+    <div>
+      <label class="block text-sm font-semibold mb-2">Scheduled At</label>
+      <input type="datetime-local" name="scheduled_at" class="w-full px-4 py-2 border border-gray-300 rounded" value="{% if next_sess and next_sess.scheduled_at %}{{ next_sess.scheduled_at|date:"Y-m-d\TH:i" }}{% endif %}">
+    </div>
+
+    <div>
+      <label class="block text-sm font-semibold mb-2">Meeting Link</label>
+      <input type="url" name="meeting_url" class="w-full px-4 py-2 border border-gray-300 rounded" value="{% if next_sess and next_sess.meeting_url %}{{ next_sess.meeting_url }}{% endif %}">
+    </div>
+
+    <div>
+      <label class="block text-sm font-semibold mb-2">Tool</label>
+      <select name="meeting_tool" class="w-full px-4 py-2 border border-gray-300 rounded">
+        <option value="">-- choose --</option>
+        {% for key, label in tools %}
+          <option value="{{ key }}" {% if next_sess and next_sess.meeting_tool == key %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="flex justify-end">
+      <a href="{% url 'mentor_dashboard' %}" class="px-4 py-2 mr-3 border rounded">Cancel</a>
+      <button type="submit" class="bg-primary text-white px-4 py-2 rounded">Save</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

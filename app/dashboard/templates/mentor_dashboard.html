@@ -1,0 +1,69 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Mentor Dashboard{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-bold">Mentor Dashboard</h1>
+      <p class="text-gray-600">Manage your assigned students and claim new ones.</p>
+    </div>
+  </div>
+</div>
+
+<div class="grid md:grid-cols-2 gap-6">
+  <div class="bg-white rounded-xl p-6 shadow">
+    <h2 class="font-semibold mb-4">Your Mentees</h2>
+    {% if mentees %}
+      <ul class="space-y-3">
+        {% for item in mentees %}
+            <li class="border p-3 rounded">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="font-semibold">{{ item.profile.user.get_full_name|default:item.profile.user.username }}</div>
+                  <div class="text-sm text-gray-600">{{ item.profile.user.email }}</div>
+                  <div class="text-sm text-gray-600 mt-2">Sessions completed: <span class="font-medium">{{ item.completed_count }}/{{ item.total_templates }}</span></div>
+                  <div class="text-sm text-gray-600 mt-2">Next meeting: {% if item.next_meeting and item.next_meeting.scheduled_at %}{{ item.next_meeting.scheduled_at|date:"F j, Y, g:i a" }}{% else %}<span class="text-gray-500">No meeting scheduled</span>{% endif %}</div>
+                </div>
+                <div class="flex flex-col items-end space-y-2">
+                  <a href="{% url 'mentor_set_meeting' item.profile.user.id %}" class="text-primary text-sm font-semibold">Set Next Meeting</a>
+                  <a href="{% url 'mentor_manage_sessions' item.profile.user.id %}" class="text-sm">Manage Sessions</a>
+                  <form method="post" action="{% url 'mentor_unassign_student' item.profile.user.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="text-sm text-red-600">Unassign</button>
+                  </form>
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-gray-600">You don't have any mentees yet.</p>
+    {% endif %}
+  </div>
+
+  <div class="bg-white rounded-xl p-6 shadow">
+    <h2 class="font-semibold mb-4">Available Students</h2>
+    {% if candidates %}
+      <ul class="space-y-3">
+        {% for p in candidates %}
+          <li class="flex items-center justify-between border p-3 rounded">
+            <div>
+              <div class="font-semibold">{{ p.user.get_full_name|default:p.user.username }}</div>
+              <div class="text-sm text-gray-600">{{ p.user.email }}</div>
+            </div>
+            <form method="post" action="{% url 'mentor_assign_student' p.user.id %}">
+              {% csrf_token %}
+              <button type="submit" class="text-sm text-primary font-semibold">Assign to me</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-gray-600">No available students right now.</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

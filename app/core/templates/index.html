@@ -18,11 +18,18 @@
       <span class="lang-zh hidden">将以英语为母语的学生与亚洲学习者连接，创造有意义的交流</span>
       <span class="lang-ko hidden">영어권 학생들과 아시아 학습자를 연결하여 의미 있는 교류를 만듭니다</span>
     </p>
-    <a href="#contact" class="inline-block bg-white text-primary font-bold px-12 py-4 rounded-lg shadow-lg hover:shadow-xl transition">
-      <span class="lang-en">Become a Partner</span>
-      <span class="lang-zh hidden">成为合作伙伴</span>
-      <span class="lang-ko hidden">파트너가 되기</span>
-    </a>
+    <div class="flex items-center justify-center space-x-4">
+      <a href="{% url 'register' %}" class="inline-block bg-white text-primary font-bold px-10 py-3 rounded-lg shadow-lg hover:shadow-xl transition">
+        <span class="lang-en">Sign up as a Learner</span>
+        <span class="lang-zh hidden">作为学习者注册</span>
+        <span class="lang-ko hidden">학습자로 가입하기</span>
+      </a>
+      <a href="{% url 'register' %}?role=mentor" class="inline-block bg-white/90 text-primary font-semibold px-6 py-3 rounded-lg shadow-sm hover:shadow-md transition">
+        <span class="lang-en">Sign up as a Mentor</span>
+        <span class="lang-zh hidden">作为导师注册</span>
+        <span class="lang-ko hidden">멘토로 가입하기</span>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -169,6 +176,38 @@
         </p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- For Learners -->
+<section id="learners" class="py-20 bg-gray-50">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <h2 class="text-3xl font-bold text-gray-900 mb-6">
+      <span class="lang-en">Designed for Learners</span>
+      <span class="lang-zh hidden">为学习者设计</span>
+      <span class="lang-ko hidden">학습자를 위해 설계됨</span>
+    </h2>
+    <p class="text-gray-600 mb-8"> <span class="lang-en">Practical conversation practice, cultural exchange, and mentor guidance — all focused on helping you speak with confidence.</span>
+      <span class="lang-zh hidden">实践会话练习、文化交流和导师指导——旨在帮助您自信地口语交流。</span>
+      <span class="lang-ko hidden">실용적인 회화 연습, 문화 교류 및 멘토 지도 — 자신 있게 말할 수 있도록 설계되었습니다.</span>
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-6 mb-8">
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h3 class="font-semibold mb-2">Flexible Scheduling</h3>
+        <p class="text-sm text-gray-600">Choose times that fit your schedule and join from anywhere.</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h3 class="font-semibold mb-2">Real Conversations</h3>
+        <p class="text-sm text-gray-600">Practice with native or fluent speakers in structured sessions.</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h3 class="font-semibold mb-2">Track Progress</h3>
+        <p class="text-sm text-gray-600">Take short assessments and see measurable improvement over time.</p>
+      </div>
+    </div>
+
+    <a href="{% url 'register' %}" class="inline-block bg-primary text-white font-bold px-8 py-3 rounded-lg">Join as a Learner</a>
   </div>
 </section>
 

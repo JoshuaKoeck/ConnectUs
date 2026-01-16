@@ -1,0 +1,42 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Beginning English Test — ConnectUS{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-xl shadow-md p-8">
+  <h1 class="text-2xl font-bold mb-4">Beginning English Assessment</h1>
+  <p class="text-gray-600 mb-6">Answer the 20 multiple-choice questions below. Each question has 20 options; choose the best answer.</p>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="space-y-6">
+      {% for q in questions %}
+        <div class="p-4 rounded-md border border-gray-100">
+          <div class="mb-3 flex items-center justify-between">
+            <div>
+              <span class="font-semibold">{{ forloop.counter }}.</span>
+              <span class="text-gray-800">{{ q.text }}</span>
+            </div>
+            <div>
+              <span class="text-xs px-2 py-1 rounded bg-gray-100 text-gray-700">{{ q.difficulty|title }}</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {% for opt in q.options %}
+              <label class="flex items-center space-x-2 p-2 border rounded-md hover:bg-gray-50 cursor-pointer">
+                <input type="radio" name="q{{ forloop.parentloop.counter }}" value="{{ forloop.counter }}" class="form-radio" />
+                <span class="text-sm text-gray-800">{{ opt }}</span>
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="mt-6">
+      <button type="submit" class="bg-primary text-white font-bold px-6 py-3 rounded-lg">Submit Test</button>
+      <a href="{% url 'dashboard' %}" class="ml-4 text-gray-600 hover:underline">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

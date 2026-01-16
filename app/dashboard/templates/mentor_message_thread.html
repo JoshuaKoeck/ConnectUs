@@ -1,0 +1,63 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Conversation with {{ other_user.get_full_name|default:other_user.username }}{% endblock %}
+
+{% block content %}
+<div class="mb-4 flex items-center justify-between">
+  <div>
+    <a href="{% url 'mentor_messages' %}" class="text-sm text-gray-600">← Back to messages</a>
+    <h1 class="text-2xl font-bold mt-2">Conversation with {{ other_user.get_full_name|default:other_user.username }}</h1>
+    <p class="text-sm text-gray-600">{{ other_user.email }}</p>
+  </div>
+</div>
+
+<div id="chat" class="bg-white rounded-lg shadow p-4 mb-4 max-h-[60vh] overflow-auto space-y-4">
+  {% for msg in thread %}
+    {% if msg.sender == request.user %}
+      <div class="flex justify-end">
+        <div class="max-w-[70%] bg-primary text-white rounded-lg px-4 py-2 shadow">
+          <div class="whitespace-pre-line">{{ msg.body }}</div>
+          <div class="text-xs opacity-80 text-right mt-2">{{ msg.created_at|date:"M j, g:ia" }}</div>
+        </div>
+      </div>
+    {% else %}
+      <div class="flex">
+        <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-semibold mr-3">{{ msg.sender.first_name|slice:":1"|default:msg.sender.username|slice:":1"|upper }}</div>
+        <div class="max-w-[70%] bg-gray-100 rounded-lg px-4 py-2 shadow">
+          <div class="whitespace-pre-line">{{ msg.body }}</div>
+          <div class="text-xs opacity-80 mt-2">{{ msg.created_at|date:"M j, g:ia" }}</div>
+        </div>
+      </div>
+    {% endif %}
+  {% empty %}
+    <div class="text-gray-600">No messages in this conversation yet.</div>
+  {% endfor %}
+</div>
+
+<div class="bg-white rounded p-4 shadow">
+  <form method="post" action="">
+    {% csrf_token %}
+    <div class="mb-2">
+      <textarea id="messageBody" name="body" rows="3" placeholder="Write your message..." class="w-full border rounded px-3 py-2"></textarea>
+    </div>
+    <div class="flex items-center justify-between">
+      <div class="text-sm text-gray-500">Tip: Be concise and friendly.</div>
+      <div>
+        <button type="submit" class="bg-primary text-white px-4 py-2 rounded font-semibold">Send</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+// Auto-scroll chat to bottom
+const chatEl = document.getElementById('chat');
+if (chatEl) {
+  chatEl.scrollTop = chatEl.scrollHeight;
+}
+// Focus textarea for convenience
+const ta = document.getElementById('messageBody');
+if (ta) ta.focus();
+</script>
+
+{% endblock %}
