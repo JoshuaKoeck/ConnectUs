@@ -8,3 +8,9 @@ def index(request):
         "total": 42,
     }
     return render(request, "index.html", context)
+
+
+def faq(request):
+    """Render the FAQ page (trilingual)."""
+    
+    return render(request, "faq.html")

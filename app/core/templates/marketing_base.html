@@ -46,12 +46,9 @@
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center space-x-10">
         <ul class="flex space-x-10 text-gray-700 font-medium">
-          <li><a href="/#about" class="hover:text-primary transition">About</a></li>
-          <li><a href="/#benefits" class="hover:text-primary transition">Benefits</a></li>
-          <li><a href="/#how" class="hover:text-primary transition">How It Works</a></li>
-          <li><a href="/#impact" class="hover:text-primary transition">Impact</a></li>
-          <li><a href="/#contact" class="hover:text-primary transition">Contact</a></li>
-        </ul>
+          <li><a href="/" class="hover:text-primary transition">About</a></li>
+          <li><a href="{% url 'faq' %}" class="hover:text-primary transition">FAQ</a></li>
+          </ul>
         <div class="flex items-center space-x-4">
           <!-- Language dropdown -->
           <div class="relative" id="langDropdown">
@@ -83,11 +80,8 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-200">
       <ul class="flex flex-col space-y-0 text-gray-700 font-medium">
-        <li><a href="/#about" class="block px-8 py-4 hover:bg-gray-50 transition border-b border-gray-100">About</a></li>
-        <li><a href="/#benefits" class="block px-8 py-4 hover:bg-gray-50 transition border-b border-gray-100">Benefits</a></li>
-        <li><a href="/#how" class="block px-8 py-4 hover:bg-gray-50 transition border-b border-gray-100">How It Works</a></li>
-        <li><a href="/#impact" class="block px-8 py-4 hover:bg-gray-50 transition border-b border-gray-100">Impact</a></li>
-        <li><a href="/#contact" class="block px-8 py-4 hover:bg-gray-50 transition border-b border-gray-100">Contact</a></li>
+        <li><a href="/" class="block px-8 py-4 hover:bg-gray-50 transition border-b border-gray-100">About</a></li>
+        <li><a href="{% url 'faq' %}" class="block px-8 py-4 hover:bg-gray-50 transition border-b border-gray-100">FAQ</a></li>
         <li><a href="/dashboard" class="block px-8 py-4 hover:bg-gray-50 transition">Open App</a></li>
         <li class="px-6 py-4 border-t border-gray-100">
           <div class="flex items-center space-x-3">
@@ -191,7 +185,7 @@
           <h3 class="text-white font-semibold mb-4">Resources</h3>
           <ul class="space-y-2 text-sm">
             <li><a href="#" class="hover:text-primary transition">Blog</a></li>
-            <li><a href="#" class="hover:text-primary transition">FAQ</a></li>
+            <li><a href="{% url 'faq' %}" class="hover:text-primary transition">FAQ</a></li>
             <li><a href="#" class="hover:text-primary transition">Privacy Policy</a></li>
             <li><a href="#" class="hover:text-primary transition">Terms of Service</a></li>
           </ul>
