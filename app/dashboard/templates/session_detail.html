@@ -6,8 +6,8 @@
 <div class="bg-white rounded-xl shadow-md p-8">
   <div class="mb-4">
     <h1 class="text-2xl font-bold">{{ session.title|default:"Session" }}</h1>
-    {% if session.scheduled_at %}<p class="text-sm text-gray-600">Scheduled: {{ session.scheduled_at|date:"F j, Y, P" }}</p>{% endif %}
-    {% if session.mentor %}<p class="text-sm text-gray-600">Mentor: {{ session.mentor.get_full_name|default:session.mentor.username }}</p>{% endif %}
+    {% if meeting and meeting.scheduled_at %}<p class="text-sm text-gray-600">Scheduled: {{ meeting.scheduled_at|date:"F j, Y, P" }}</p>{% endif %}
+    {% if meeting and meeting.mentor %}<p class="text-sm text-gray-600">Mentor: {{ meeting.mentor.get_full_name|default:meeting.mentor.username }}</p>{% endif %}
   </div>
 
   <div class="prose max-w-none">
@@ -15,8 +15,8 @@
   </div>
 
   <div class="mt-6">
-    {% if session.meeting_url %}
-      <a href="{{ session.meeting_url }}" target="_blank" class="bg-primary text-white px-4 py-2 rounded-md">Join Meeting</a>
+    {% if meeting and meeting.meeting_url %}
+      <a href="{{ meeting.meeting_url }}" target="_blank" class="bg-primary text-white px-4 py-2 rounded-md">Join Meeting</a>
     {% endif %}
     <a href="{% url 'dashboard' %}" class="ml-4 text-gray-600 hover:underline">Back to dashboard</a>
   </div>

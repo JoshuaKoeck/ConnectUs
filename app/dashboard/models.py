@@ -12,32 +12,10 @@ MEETING_TOOL_CHOICES = [
 ]
 
 
-class Session(models.Model):
-	"""A scheduled session between a learner and a mentor.
 
-	Use `completed` to mark finished sessions. Meeting URL/tool can be stored
-	per-session; a user may also have a default meeting link on their profile.
-	"""
-
-	learner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="sessions", on_delete=models.CASCADE)
-	mentor = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="mentor_sessions", null=True, blank=True, on_delete=models.SET_NULL)
-	title = models.CharField(max_length=200, blank=True)
-	content_markdown = models.TextField(blank=True, help_text="Session content and tasks (Markdown allowed)")
-	scheduled_at = models.DateTimeField(null=True, blank=True)
-	completed = models.BooleanField(default=False)
-	meeting_url = models.URLField(max_length=500, blank=True, null=True)
-	meeting_tool = models.CharField(max_length=20, choices=MEETING_TOOL_CHOICES, blank=True, null=True)
-	notes = models.TextField(blank=True)
-	created_at = models.DateTimeField(default=timezone.now)
-	updated_at = models.DateTimeField(auto_now=True)
-
-	class Meta:
-		ordering = ["-scheduled_at", "-created_at"]
-
-	def __str__(self):
-		who = getattr(self.mentor, "username", "Unassigned")
-		when = self.scheduled_at.isoformat() if self.scheduled_at else "unscheduled"
-		return f"Session: {self.learner} with {who} at {when}"
+# NOTE: Sessions are now tracked on the `Profile` (next meeting fields)
+# The old `Session` model was removed; meeting metadata is stored directly
+# on the learner's Profile (see fields on Profile below).
 
 
 class SessionTemplate(models.Model):
@@ -87,6 +65,11 @@ class Profile(models.Model):
 	# default meeting link/tool for the user
 	default_meeting_url = models.URLField(max_length=500, blank=True, null=True)
 	default_meeting_tool = models.CharField(max_length=20, choices=MEETING_TOOL_CHOICES, blank=True, null=True)
+	# Next-meeting details (moved from Session model)
+	next_meeting_at = models.DateTimeField(null=True, blank=True)
+	next_meeting_url = models.URLField(max_length=500, blank=True, null=True)
+	next_meeting_tool = models.CharField(max_length=20, choices=MEETING_TOOL_CHOICES, blank=True, null=True)
+	next_meeting_notes = models.TextField(blank=True)
 	created_at = models.DateTimeField(default=timezone.now)
 	updated_at = models.DateTimeField(auto_now=True)	
 	# Is this user a mentor?
@@ -97,8 +80,12 @@ class Profile(models.Model):
 		return f"Profile: {self.user.username}"
 
 	def completed_sessions(self):
-		"""Return queryset of completed sessions for this user."""
-		return self.user.sessions.filter(completed=True)
+		"""Return queryset-like iterable of completed session templates for this user.
+
+		Session scheduling was removed; this returns the user's completed
+		SessionTemplate completions instead.
+		"""
+		return SessionCompletion.objects.filter(user=self.user, completed=True)
 
 
 class Message(models.Model):

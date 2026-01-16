@@ -10,7 +10,7 @@ from django.views.decorators.http import require_http_methods
 from django.shortcuts import get_object_or_404
 from django.utils.safestring import mark_safe
 import markdown as md
-from .models import Session, SessionTemplate, SessionCompletion, Profile, MEETING_TOOL_CHOICES, Message
+from .models import SessionTemplate, SessionCompletion, Profile, MEETING_TOOL_CHOICES, Message
 from django.db.models import Q
 from django.utils import timezone
 from django.http import HttpResponseForbidden
@@ -164,9 +164,26 @@ def session_detail(request, pk):
     raw = template.content_markdown or ''
     html = mark_safe(md.markdown(raw, extensions=['fenced_code', 'nl2br']))
 
+    # Provide optional meeting info derived from the current user's profile
+    meeting = None
+    try:
+        prof = request.user.profile
+        if prof.next_meeting_at or prof.next_meeting_url or prof.next_meeting_tool:
+            class M:
+                pass
+            meeting = M()
+            meeting.scheduled_at = prof.next_meeting_at
+            meeting.meeting_url = prof.next_meeting_url or prof.default_meeting_url
+            meeting.meeting_tool = prof.next_meeting_tool or prof.default_meeting_tool
+            meeting.mentor = prof.assigned_mentor
+            meeting.get_meeting_tool_display = (dict(MEETING_TOOL_CHOICES).get(meeting.meeting_tool) if meeting.meeting_tool else '')
+    except Exception:
+        meeting = None
+
     context = {
         'session': template,
         'content_html': html,
+        'meeting': meeting,
     }
     return render(request, 'session_detail.html', context)
 
@@ -205,11 +222,23 @@ def mentor_dashboard(request):
     total_templates = SessionTemplate.objects.count()
     mentees = []
     for prof in mentee_profiles:
-        next_meeting = Session.objects.filter(learner=prof.user, mentor=request.user, scheduled_at__isnull=False).order_by('scheduled_at').first()
+        # Build a lightweight next_meeting object from profile fields (if present)
+        nm = None
+        if prof.next_meeting_at or prof.next_meeting_url or prof.next_meeting_tool:
+            class NM:
+                pass
+            nm = NM()
+            nm.scheduled_at = prof.next_meeting_at
+            nm.meeting_url = prof.next_meeting_url or prof.default_meeting_url
+            nm.meeting_tool = prof.next_meeting_tool or prof.default_meeting_tool
+            nm.mentor = request.user
+            # convenience display property
+            nm.get_meeting_tool_display = (dict(MEETING_TOOL_CHOICES).get(nm.meeting_tool) if nm.meeting_tool else '')
+
         completed_count = SessionCompletion.objects.filter(user=prof.user, completed=True).count()
         mentees.append({
             'profile': prof,
-            'next_meeting': next_meeting,
+            'next_meeting': nm,
             'completed_count': completed_count,
             'total_templates': total_templates,
         })
@@ -256,8 +285,15 @@ def mentor_set_meeting(request, user_id):
     if profile.assigned_mentor_id != request.user.id:
         return HttpResponseForbidden('Not your mentee')
 
-    # get next upcoming session for this mentor+mentee
-    next_sess = Session.objects.filter(learner=profile.user, mentor=request.user).order_by('scheduled_at').first()
+    # Meeting info is stored on the mentee's Profile
+    next_sess = None
+    if profile.next_meeting_at or profile.next_meeting_url or profile.next_meeting_tool:
+        class NM:
+            pass
+        next_sess = NM()
+        next_sess.scheduled_at = profile.next_meeting_at
+        next_sess.meeting_url = profile.next_meeting_url or profile.default_meeting_url
+        next_sess.meeting_tool = profile.next_meeting_tool or profile.default_meeting_tool
 
     if request.method == 'POST':
         dt = request.POST.get('scheduled_at')
@@ -272,13 +308,11 @@ def mentor_set_meeting(request, user_id):
             except Exception:
                 scheduled_at = None
 
-        if next_sess:
-            next_sess.scheduled_at = scheduled_at
-            next_sess.meeting_url = meeting_url
-            next_sess.meeting_tool = meeting_tool
-            next_sess.save()
-        else:
-            Session.objects.create(learner=profile.user, mentor=request.user, scheduled_at=scheduled_at, meeting_url=meeting_url, meeting_tool=meeting_tool)
+        # Save meeting info directly onto the learner's profile
+        profile.next_meeting_at = scheduled_at
+        profile.next_meeting_url = meeting_url
+        profile.next_meeting_tool = meeting_tool
+        profile.save()
 
         messages.success(request, 'Next meeting updated.')
         return redirect('mentor_dashboard')
@@ -547,7 +581,21 @@ def dashboard(request):
         # If profile lookup fails, continue to render normal dashboard
         pass
     # Find the user's next scheduled Session (if any)
-    next_meeting = Session.objects.filter(learner=request.user, scheduled_at__isnull=False, scheduled_at__gte=timezone.now()).order_by('scheduled_at').first()
+    # Build next_meeting from the user's profile
+    next_meeting = None
+    try:
+        prof = request.user.profile
+        if prof.next_meeting_at or prof.next_meeting_url or prof.next_meeting_tool:
+            class NM:
+                pass
+            next_meeting = NM()
+            next_meeting.scheduled_at = prof.next_meeting_at
+            next_meeting.meeting_url = prof.next_meeting_url or prof.default_meeting_url
+            next_meeting.meeting_tool = prof.next_meeting_tool or prof.default_meeting_tool
+            next_meeting.mentor = prof.assigned_mentor
+            next_meeting.get_meeting_tool_display = (dict(MEETING_TOOL_CHOICES).get(next_meeting.meeting_tool) if next_meeting.meeting_tool else '')
+    except Exception:
+        next_meeting = None
 
     # Pull session templates and per-user completion status
     templates = list(SessionTemplate.objects.all().order_by('order'))
@@ -606,9 +654,14 @@ def reset_progress(request):
         profile.end_test_taken_at = None
         profile.save()
 
-    # Reset session completions and sessions
+    # Reset session completions and clear any scheduled meeting info on the profile
     SessionCompletion.objects.filter(user=user).update(completed=False, completed_at=None)
-    Session.objects.filter(learner=user).update(completed=False)
+    if profile:
+        profile.next_meeting_at = None
+        profile.next_meeting_url = None
+        profile.next_meeting_tool = None
+        profile.next_meeting_notes = ''
+        profile.save()
 
     messages.success(request, "Your progress has been reset.")
     return redirect('dashboard')
