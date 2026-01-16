@@ -539,6 +539,13 @@ def login_view(request):
 @login_required(login_url='login')
 def dashboard(request):
     """User dashboard view"""
+    # If the current user is a mentor, redirect to the mentor dashboard.
+    try:
+        if hasattr(request.user, 'profile') and request.user.profile.is_mentor:
+            return redirect('mentor_dashboard')
+    except Exception:
+        # If profile lookup fails, continue to render normal dashboard
+        pass
     # Find the user's next scheduled Session (if any)
     next_meeting = Session.objects.filter(learner=request.user, scheduled_at__isnull=False, scheduled_at__gte=timezone.now()).order_by('scheduled_at').first()
 

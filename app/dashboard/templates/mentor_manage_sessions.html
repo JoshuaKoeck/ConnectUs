@@ -16,6 +16,7 @@
             <div class="text-sm text-gray-600">{{ t.content_markdown|truncatechars:120 }}</div>
           </div>
           <div class="flex items-center space-x-4">
+            <a href="{% url 'session_detail' t.pk %}" class="text-sm text-primary hover:underline">View</a>
             <label class="flex items-center text-sm">
               <input type="checkbox" name="completed" value="{{ t.id }}" {% if t.id in completed_ids %}checked{% endif %} class="w-4 h-4" />
               <span class="ml-2 text-sm">Completed</span>
