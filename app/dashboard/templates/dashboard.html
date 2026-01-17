@@ -6,33 +6,65 @@
 
 <!-- Welcome Section -->
 <div class="mb-12">
-  <h1 class="text-4xl font-bold text-gray-900 mb-2">Welcome back, {{user.first_name}}! 👋</h1>
-  <p class="text-lg text-gray-600">Here's your learning journey with ConnectUS</p>
+  <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
+    Welcome back, {{user.first_name}}! 👋
+  </h1>
+  <p class="text-base sm:text-lg text-gray-600">
+    Here's your learning journey with ConnectUS
+  </p>
 </div>
+
+<!-- Waiting for mentor banner -->
+{% if not user.profile.assigned_mentor %}
+  <div class="mb-6 p-4 rounded-lg bg-yellow-50 border-l-4 border-yellow-400 text-yellow-900">
+    <div class="flex items-start gap-3">
+      <div class="text-2xl">⚠️</div>
+      <div>
+        <div class="font-semibold">Waiting for a Mentor</div>
+        <div class="text-sm">You don't have a mentor assigned yet. Please wait — a mentor will be assigned to you soon and you'll be notified when that happens. In the meantime feel free to expolore the platform and start the introductory test.</div>
+      </div>
+    </div>
+  </div>
+  {%else%}
 
 <!-- Next Meeting Banner -->
 <div class="mb-8">
-  {% if next_meeting %}
-    <div class="bg-indigo-600 text-white rounded-xl p-6 shadow-md flex items-center justify-between">
+    {% if next_meeting and user.profile.assigned_mentor  %}
+    <div class="bg-indigo-600 text-white rounded-xl p-6 shadow-md flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
       <div>
         <div class="text-sm uppercase font-semibold opacity-90">Next Meeting</div>
-        <div class="mt-2 text-2xl font-bold">{{ next_meeting.scheduled_at|date:"F j, Y, g:i a" }}</div>
-        <div class="mt-1 text-sm opacity-90">with {{ next_meeting.mentor.first_name|default:next_meeting.mentor.username }}</div>
-        <div class="mt-2 flex items-center space-x-3">
-          {% if next_meeting.meeting_tool == 'zoom' %}<div class="text-xl">📹 Zoom</div>
-          {% elif next_meeting.meeting_tool == 'meet' %}<div class="text-xl">🎥 Meet</div>
-          {% elif next_meeting.meeting_tool == 'teams' %}<div class="text-xl">💼 Teams</div>
-          {% else %}<div class="text-xl">🔗 Link</div>{% endif %}
+        <div class="mt-2 text-xl sm:text-2xl font-bold">
+          {{ next_meeting.scheduled_at|date:"F j, Y, g:i a" }}
+        </div>
+        <div class="mt-1 text-sm opacity-90">
+          with {{ next_meeting.mentor.first_name|default:next_meeting.mentor.username }}
+        </div>
+
+        <div class="mt-4 flex flex-col sm:flex-row sm:items-center gap-3">
+          {% if next_meeting.meeting_tool == 'zoom' %}<div class="text-lg">📹 Zoom</div>
+          {% elif next_meeting.meeting_tool == 'meet' %}<div class="text-lg">🎥 Meet</div>
+          {% elif next_meeting.meeting_tool == 'teams' %}<div class="text-lg">💼 Teams</div>
+          {% else %}<div class="text-lg">🔗 Link</div>{% endif %}
+
           {% if next_meeting.meeting_url %}
-            <a href="{{ next_meeting.meeting_url }}" target="_blank" class="bg-white text-indigo-600 px-4 py-2 rounded-lg font-semibold hover:shadow">Join Meeting</a>
+            <a href="{{ next_meeting.meeting_url }}" target="_blank"
+               class="bg-white text-indigo-600 px-4 py-2 rounded-lg font-semibold text-center w-full sm:w-auto">
+              Join Meeting
+            </a>
           {% elif user.profile.default_meeting_url %}
-            <a href="{{ user.profile.default_meeting_url }}" target="_blank" class="bg-white text-indigo-600 px-4 py-2 rounded-lg font-semibold hover:shadow">Join Default Meeting</a>
+            <a href="{{ user.profile.default_meeting_url }}" target="_blank"
+               class="bg-white text-indigo-600 px-4 py-2 rounded-lg font-semibold text-center w-full sm:w-auto">
+              Join Default Meeting
+            </a>
           {% else %}
-            <span class="bg-white text-indigo-600 px-4 py-2 rounded-lg font-semibold">No meeting link</span>
+            <span class="bg-white text-indigo-600 px-4 py-2 rounded-lg font-semibold text-center w-full sm:w-auto">
+              No meeting link
+            </span>
           {% endif %}
         </div>
       </div>
-      <div class="text-right text-sm opacity-90">
+
+      <div class="text-sm opacity-90">
         <div>Mentor: <span class="font-semibold">{{ next_meeting.mentor.first_name|default:next_meeting.mentor.username }}</span></div>
         <div class="mt-2">Tool: <span class="font-semibold">{{ next_meeting.get_meeting_tool_display }}</span></div>
       </div>
@@ -42,165 +74,284 @@
       <div class="text-sm uppercase font-semibold">Next Meeting</div>
       <div class="mt-2 text-lg">No meeting scheduled</div>
       {% if user.profile.assigned_mentor %}
-        <div class="mt-1 text-sm">Assigned mentor: <span class="font-semibold">{{ user.profile.assigned_mentor.first_name|default:user.profile.assigned_mentor.username }}</span></div>
+        <div class="mt-1 text-sm">
+          Assigned mentor:
+          <span class="font-semibold">
+            {{ user.profile.assigned_mentor.first_name|default:user.profile.assigned_mentor.username }}
+          </span>
+        </div>
       {% endif %}
       {% if user.profile.default_meeting_url %}
-        <div class="mt-2"><a href="{{ user.profile.default_meeting_url }}" target="_blank" class="text-primary font-semibold">Open default meeting link</a></div>
+        <div class="mt-3">
+          <a href="{{ user.profile.default_meeting_url }}" target="_blank"
+             class="text-primary font-semibold">
+            Open default meeting link
+          </a>
+        </div>
       {% endif %}
     </div>
   {% endif %}
 </div>
-
+{% endif %}
 
 <!-- Learning Journey -->
 <div class="space-y-8">
 
-  <!-- Step 1: Beginning English Test -->
-  <div class="bg-white rounded-xl shadow-md p-8 border-l-4 border-primary">
-    <div class="flex items-start justify-between">
+  <!-- Step 1 -->
+  <div class="bg-white rounded-xl shadow-md p-6 sm:p-8 border-l-4 border-primary">
+    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
       <div class="flex-1">
         <div class="flex items-center mb-2">
           <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm mr-3">1</div>
-          <h2 class="text-2xl font-bold text-gray-900">Beginning English Assessment</h2>
+          <h2 class="text-xl sm:text-2xl font-bold text-gray-900">
+            Beginning English Assessment
+          </h2>
         </div>
-        <p class="text-gray-600 mb-4">Start by taking our English proficiency test. This helps us understand your current level and match you with the right learning partner.</p>
-        
-        <div class="space-y-2">
-          <p class="text-sm text-gray-600">
+        <p class="text-gray-600 mb-4">
+          Start by taking our English proficiency test. This helps us understand your current level and match you with the right learning partner.
+        </p>
+
+        <div class="space-y-2 text-sm">
+          <p>
             <span class="font-semibold">Status:</span>
             {% if user.profile.intro_test_done %}
-              <span class="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">Completed</span>
+              <span class="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full font-medium">Completed</span>
             {% else %}
-              <span class="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">Not Started</span>
+              <span class="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full font-medium">Not Started</span>
             {% endif %}
           </p>
-          <p class="text-sm text-gray-600"><span class="font-semibold">Score:</span>
+          <p>
+            <span class="font-semibold">Score:</span>
             {% if user.profile.intro_test_score is not None %}
-              <span class="font-semibold text-gray-900">{{ user.profile.intro_test_score }}/20</span>
+              {{ user.profile.intro_test_score }}/20
             {% else %}
-              <span class="text-gray-600">—</span>
+              —
             {% endif %}
           </p>
-          <p class="text-sm text-gray-600"><span class="font-semibold">Duration:</span> ~20 minutes</p>
+          <p><span class="font-semibold">Duration:</span> ~20 minutes</p>
         </div>
       </div>
+
       {% if not user.profile.intro_test_done %}
-        <a href="{% url 'english_test' %}" class="bg-primary text-white font-bold px-8 py-3 rounded-lg hover:shadow-lg transition shadow-md whitespace-nowrap ml-4">Start Test</a>
+        <a href="{% url 'english_test' %}"
+           class="bg-primary text-white font-bold px-8 py-3 rounded-lg text-center w-full sm:w-auto">
+          Start Test
+        </a>
       {% endif %}
     </div>
   </div>
 
-  <!-- Step 2: Sessions -->
-  <div class="bg-white rounded-xl shadow-md p-8 border-l-4 {% if user.profile.intro_test_done %}border-primary{% else %}border-gray-300{% endif %}">
-    <div class="mb-6">
-      <div class="flex items-center mb-2">
-        <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm mr-3">2</div>
-        <h2 class="text-2xl font-bold text-gray-900">Your Learning Sessions</h2>
-      </div>
-      <p class="text-gray-600">Connect with your language learning partner and have meaningful conversations.</p>
+  <!-- Step 2 & Step 3 remain structurally identical -->
+  <!-- Only spacing + stacking adjustments applied consistently -->
+<!-- Step 2: Sessions -->
+<div class="bg-white rounded-xl shadow-md p-6 sm:p-8 border-l-4 {% if user.profile.intro_test_done %}border-primary{% else %}border-gray-300{% endif %}">
+  <div class="mb-6">
+    <div class="flex items-center mb-2">
+      <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm mr-3">2</div>
+      <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Your Learning Sessions</h2>
     </div>
+    <p class="text-gray-600">
+      Connect with your language learning partner and have meaningful conversations.
+    </p>
+  </div>
 
-    <!-- Session Tabs (Todo / Completed) -->
-    <div class="mb-6">
-      <div class="flex space-x-4 border-b border-gray-200">
-        <a href="{% url 'dashboard' %}?filter=todo" class="px-4 py-3 border-b-2 {% if filter == 'todo' %}border-primary text-primary font-semibold{% else %}border-transparent text-gray-600 hover:text-gray-900 font-semibold{% endif %}">To Do</a>
-        <a href="{% url 'dashboard' %}?filter=completed" class="px-4 py-3 border-b-2 {% if filter == 'completed' %}border-primary text-primary font-semibold{% else %}border-transparent text-gray-600 hover:text-gray-900 font-semibold{% endif %}">Completed</a>
-      </div>
+  <!-- Session Tabs -->
+  <div class="mb-6 overflow-x-auto">
+    <div class="flex min-w-max space-x-4 border-b border-gray-200">
+      <a href="{% url 'dashboard' %}?filter=todo"
+         class="px-4 py-3 border-b-2 whitespace-nowrap
+         {% if filter == 'todo' %}border-primary text-primary{% else %}border-transparent text-gray-600 hover:text-gray-900{% endif %}
+         font-semibold">
+        To Do
+      </a>
+      <a href="{% url 'dashboard' %}?filter=completed"
+         class="px-4 py-3 border-b-2 whitespace-nowrap
+         {% if filter == 'completed' %}border-primary text-primary{% else %}border-transparent text-gray-600 hover:text-gray-900{% endif %}
+         font-semibold">
+        Completed
+      </a>
     </div>
+  </div>
 
-    <!-- Sessions List (templates with per-user completion) -->
-    <div class="space-y-4">
-      {% for item in session_items %}
-        {% with t=item.template comp=item.completion %}
-          <div class="border border-gray-200 rounded-lg p-5 bg-gray-50">
-            <div class="flex items-start justify-between mb-3">
-              <div>
-                <h3 class="font-semibold text-gray-900 text-lg">{{ t.title }}</h3>
-                {% if comp and comp.completed_at %}
-                  <p class="text-sm text-gray-600">Completed on {{ comp.completed_at|date:"F j, Y" }}</p>
-                {% endif %}
-              </div>
-              <div class="flex items-center space-x-3">
-                <span class="inline-block px-3 py-1 {% if comp and comp.completed %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %} rounded-full text-sm font-medium">{% if comp and comp.completed %}Completed{% else %}To Do{% endif %}</span>
-                {% if user.profile.intro_test_done %}
-                  <form method="post" action="{% url 'complete_session' t.pk %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{% url 'dashboard' %}?filter={{ filter }}">
-                    {% if comp and comp.completed %}
-                      <button type="submit" name="action" value="undo" class="text-sm text-gray-700 underline">Mark as To Do</button>
-                    {% else %}
-                      <button type="submit" class="text-sm text-primary font-semibold">Mark Completed</button>
-                    {% endif %}
-                  </form>
-                {% else %}
-                  <div class="text-sm text-gray-500">Take the beginning test to unlock.</div>
-                {% endif %}
-              </div>
+  <!-- Sessions List -->
+  <div class="space-y-4">
+    {% for item in session_items %}
+      {% with t=item.template comp=item.completion %}
+        <div class="border border-gray-200 rounded-lg p-5 bg-gray-50">
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-3">
+            <div>
+              <h3 class="font-semibold text-gray-900 text-lg">{{ t.title }}</h3>
+              {% if comp and comp.completed_at %}
+                <p class="text-sm text-gray-600">
+                  Completed on {{ comp.completed_at|date:"F j, Y" }}
+                </p>
+              {% endif %}
             </div>
-            <p class="text-sm text-gray-600 mb-4">{{ t.content_markdown|truncatechars:120 }}</p>
-            <a href="{% url 'session_detail' t.pk %}" class="text-primary font-semibold hover:underline">View Details →</a>
+
+            <div class="flex flex-col sm:items-end gap-2">
+              <span class="inline-block px-3 py-1
+                {% if comp and comp.completed %}
+                  bg-green-100 text-green-800
+                {% else %}
+                  bg-yellow-100 text-yellow-800
+                {% endif %}
+                rounded-full text-sm font-medium w-fit">
+                {% if comp and comp.completed %}Completed{% else %}To Do{% endif %}
+              </span>
+
+              {% if user.profile.intro_test_done %}
+                <form method="post" action="{% url 'complete_session' t.pk %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{% url 'dashboard' %}?filter={{ filter }}">
+                  {% if comp and comp.completed %}
+                    <button type="submit" name="action" value="undo"
+                            class="text-sm text-gray-700 underline">
+                      Mark as To Do
+                    </button>
+                  {% else %}
+                    <button type="submit"
+                            class="text-sm text-primary font-semibold">
+                      Mark Completed
+                    </button>
+                  {% endif %}
+                </form>
+              {% else %}
+                <div class="text-sm text-gray-500">
+                  Take the beginning test to unlock.
+                </div>
+              {% endif %}
+            </div>
           </div>
-        {% endwith %}
-      {% empty %}
-        <div class="text-gray-600">No sessions available.</div>
-      {% endfor %}
+
+
+          <a href="{% url 'session_detail' t.pk %}"
+             class="text-primary font-semibold hover:underline">
+            View Details →
+          </a>
+        </div>
+      {% endwith %}
+    {% empty %}
+      <div class="text-gray-600">No sessions available.</div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Step 3: End English Test -->
+<div class="bg-white rounded-xl shadow-md p-6 sm:p-8 border-l-4
+  {% if user.profile.end_test_done %}border-primary{% else %}border-gray-300{% endif %}">
+  <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+    <div class="flex-1">
+      <div class="flex items-center mb-2">
+        <div class="w-8 h-8 rounded-full bg-gray-300 text-white flex items-center justify-center font-bold text-sm mr-3">3</div>
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-900">
+          End English Assessment
+        </h2>
+      </div>
+
+      <p class="text-gray-600 mb-4">
+        After completing all sessions, take the B2-level end test to measure your progress.
+      </p>
+
+      <div class="space-y-2 text-sm">
+        <p>
+          <span class="font-semibold">Status:</span>
+          {% if user.profile.end_test_done %}
+            <span class="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full font-medium">
+              Completed
+            </span>
+          {% elif allow_end_test %}
+            <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full font-medium">
+              Available
+            </span>
+          {% else %}
+            <span class="inline-block px-3 py-1 bg-gray-100 text-gray-800 rounded-full font-medium">
+              Locked
+            </span>
+          {% endif %}
+        </p>
+
+        {% if not allow_end_test %}
+          <p class="text-gray-600">
+            Complete all sessions to unlock the end test.
+          </p>
+        {% endif %}
+
+        {% if user.profile.end_test_done and user.profile.end_test_score is not None %}
+          <p class="text-gray-600">
+            Your score:
+            <span class="font-semibold">{{ user.profile.end_test_score }}/20</span>
+          </p>
+        {% endif %}
+      </div>
     </div>
 
-    <!-- removed scheduling CTA per request -->
-  </div>
-
-  <!-- Step 3: End English Test -->
-  <div
-  
-  class="bg-white rounded-xl shadow-md p-8 border-l-4 {% if user.profile.end_test_done %}border-primary{% else %}border-gray-300{% endif %}"
-  >
-    <div class="flex items-start justify-between">
-      <div class="flex-1">
-        <div class="flex items-center mb-2">
-          <div class="w-8 h-8 rounded-full bg-gray-300 text-white flex items-center justify-center font-bold text-sm mr-3">3</div>
-          <h2 class="text-2xl font-bold text-gray-900">End English Assessment</h2>
-        </div>
-        <p class="text-gray-600 mb-4">After completing all sessions, take the B2-level end test to measure your progress.</p>
-
-        <div class="space-y-2">
-          <p class="text-sm text-gray-600">
-            <span class="font-semibold">Status:</span>
-            {% if user.profile.end_test_done %}
-              <span class="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">Completed</span>
-            {% elif allow_end_test %}
-              <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">Available</span>
-            {% else %}
-              <span class="inline-block px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">Locked</span>
-            {% endif %}
-          </p>
-          {% if not allow_end_test %}
-            <p class="text-sm text-gray-600">Complete all sessions to unlock the end test.</p>
-          {% endif %}
-          {% if user.profile.end_test_done and user.profile.end_test_score is not None %}
-            <p class="text-sm text-gray-600">Your score: <span class="font-semibold">{{ user.profile.end_test_score }}/20</span></p>
-          {% endif %}
-        </div>
-      </div>
+    <div class="w-full sm:w-auto">
       {% if user.profile.end_test_done %}
-        <a href="{% url 'dashboard' %}" class="bg-gray-100 text-gray-700 font-bold px-6 py-3 rounded-lg ml-4">View Dashboard</a>
+        <a href="{% url 'dashboard' %}"
+           class="bg-gray-100 text-gray-700 font-bold px-6 py-3 rounded-lg block text-center">
+          View Dashboard
+        </a>
       {% elif allow_end_test %}
-        <a href="{% url 'end_test' %}" class="bg-primary text-white font-bold px-6 py-3 rounded-lg ml-4">Start End Test</a>
+        <a href="{% url 'end_test' %}"
+           class="bg-primary text-white font-bold px-6 py-3 rounded-lg block text-center">
+          Start End Test
+        </a>
       {% else %}
-        <button disabled class="bg-gray-300 text-gray-600 font-bold px-8 py-3 rounded-lg cursor-not-allowed whitespace-nowrap ml-4">Start Test</button>
+        <button disabled
+                class="bg-gray-300 text-gray-600 font-bold px-6 py-3 rounded-lg block w-full cursor-not-allowed">
+          Start Test
+        </button>
       {% endif %}
     </div>
   </div>
-    <!-- Reset Progress -->
-    <div class="mt-8 mb-12 text-center">
-    <form method="post" action="{% url 'reset_progress' %}" onsubmit="return confirm('Are you sure you want to reset your progress? This will clear test results and mark sessions as not completed.');">
-        {% csrf_token %}
-        <button type="submit" class="bg-red-600 text-white px-6 py-3 rounded font-semibold">Reset Progress</button>
-    </form>
-    </div>
-
-
 </div>
 
 
+
+  <!-- Reset Progress (modal trigger + modal) -->
+  <div class="mt-8 mb-12 text-center px-4">
+    <button id="resetProgressBtn" type="button"
+            class="bg-red-600 text-white px-6 py-3 rounded font-semibold w-full sm:w-auto">
+      Reset Progress
+    </button>
+  </div>
+
+  <!-- Modal -->
+  <div id="resetProgressModal" class="hidden !mt-0 fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-lg mx-4">
+      <div class="p-4 border-b flex justify-between items-center">
+        <h3 class="text-lg font-semibold">Confirm Reset</h3>
+        <button id="resetClose" class="text-gray-500 hover:text-gray-700 text-2xl leading-none">&times;</button>
+      </div>
+      <div class="p-6 text-gray-700">
+        <p>Are you sure you want to reset your progress? This will clear test results and mark sessions as not completed.</p>
+      </div>
+      <div class="p-4 border-t flex justify-end gap-3">
+        <button id="resetCancel" type="button" class="px-4 py-2 rounded bg-gray-200">Cancel</button>
+        <form method="post" action="{% url 'reset_progress' %}">
+          {% csrf_token %}
+          <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded font-semibold">Yes, Reset</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const openBtn = document.getElementById('resetProgressBtn');
+      const modal = document.getElementById('resetProgressModal');
+      const closeBtn = document.getElementById('resetClose');
+      const cancelBtn = document.getElementById('resetCancel');
+      function open(){ modal.classList.remove('hidden'); document.body.classList.add('overflow-hidden'); }
+      function close(){ modal.classList.add('hidden'); document.body.classList.remove('overflow-hidden'); }
+      openBtn && openBtn.addEventListener('click', open);
+      closeBtn && closeBtn.addEventListener('click', close);
+      cancelBtn && cancelBtn.addEventListener('click', close);
+      modal && modal.addEventListener('click', function(e){ if(e.target === modal) { close(); } });
+      document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !modal.classList.contains('hidden')) close(); });
+    })();
+  </script>
+
+</div>
 
 {% endblock %}

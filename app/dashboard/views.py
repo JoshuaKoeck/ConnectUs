@@ -160,9 +160,13 @@ def session_detail(request, pk):
     # session detail now displays a SessionTemplate
     template = get_object_or_404(SessionTemplate, pk=pk)
 
-    # render markdown from template content
+    # render markdown from template content (learner-facing)
     raw = template.content_markdown or ''
     html = mark_safe(md.markdown(raw, extensions=['fenced_code', 'nl2br']))
+
+    # render mentor-only markdown if present
+    mentor_raw = getattr(template, 'mentor_content_markdown', '') or ''
+    mentor_html = mark_safe(md.markdown(mentor_raw, extensions=['fenced_code', 'nl2br'])) if mentor_raw else ''
 
     # Provide optional meeting info derived from the current user's profile
     meeting = None
@@ -183,6 +187,8 @@ def session_detail(request, pk):
     context = {
         'session': template,
         'content_html': html,
+        'mentor_content_html': mentor_html,
+        'is_mentor': getattr(request.user, 'profile', None) and getattr(request.user.profile, 'is_mentor', False),
         'meeting': meeting,
     }
     return render(request, 'session_detail.html', context)

@@ -11,7 +11,18 @@
   </div>
 
   <div class="prose max-w-none">
-    {{ content_html|safe }}
+    <div>
+      {{ content_html|safe }}
+    </div>
+
+    {% if is_mentor and mentor_content_html %}
+      <div class="mt-8 p-4 bg-gray-50 rounded">
+        <h3 class="font-semibold mb-2">Mentor Notes</h3>
+        <div class="prose max-w-none text-sm text-gray-800">
+          {{ mentor_content_html|safe }}
+        </div>
+      </div>
+    {% endif %}
   </div>
 
   <div class="mt-6">

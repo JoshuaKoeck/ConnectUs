@@ -23,6 +23,8 @@ class SessionTemplate(models.Model):
 
 	title = models.CharField(max_length=200)
 	content_markdown = models.TextField(blank=True, help_text="Session content and tasks (Markdown allowed)")
+	# Content intended for mentors (notes, guidance). Visible to mentor users only.
+	mentor_content_markdown = models.TextField(blank=True, help_text="Mentor-only notes and guidance (Markdown allowed)")
 	order = models.PositiveIntegerField(default=0, help_text="Ordering for display")
 	created_at = models.DateTimeField(default=timezone.now)
 

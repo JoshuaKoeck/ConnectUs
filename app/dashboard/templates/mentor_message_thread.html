@@ -5,7 +5,11 @@
 {% block content %}
 <div class="mb-4 flex items-center justify-between">
   <div>
-    <a href="{% url 'mentor_messages' %}" class="text-sm text-gray-600">← Back to messages</a>
+    {% if request.user.is_mentor %}
+    <a href="{% url 'mentor_messages'  %}" class="text-sm text-gray-600">← Back to messages</a>
+    {% else %}
+    <a href="{% url 'dashboard'  %}" class="text-sm text-gray-600">← Back to dashboard</a>
+    {% endif %}
     <h1 class="text-2xl font-bold mt-2">Conversation with {{ other_user.get_full_name|default:other_user.username }}</h1>
     <p class="text-sm text-gray-600">{{ other_user.email }}</p>
   </div>

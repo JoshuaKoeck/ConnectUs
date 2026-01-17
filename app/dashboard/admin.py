@@ -13,7 +13,7 @@ class ProfileAdmin(admin.ModelAdmin):
 class SessionTemplateAdmin(admin.ModelAdmin):
 	list_display = ("title", "order", "created_at")
 	ordering = ("order",)
-	fields = ("title", "order", "content_markdown")
+	fields = ("title", "order", "content_markdown", "mentor_content_markdown")
 
 	def has_add_permission(self, request):
 		return request.user.is_superuser

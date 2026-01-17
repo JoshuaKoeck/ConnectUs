@@ -1,5 +1,6 @@
-django
-psycopg2-binary
-ruff
-dj-database-url
-markdown
+Django==6.0.1
+psycopg2-binary==2.9.11
+ruff==0.14.11
+dj-database-url==0.4.1
+Markdown==3.10
+gunicorn==23.0.0
